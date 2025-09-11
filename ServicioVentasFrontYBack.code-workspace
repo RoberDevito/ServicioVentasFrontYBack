@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "angular"   // carpeta Angular
+    },
+    {
+      "path": "aspnet-core"    // carpeta C#
+    }
+  ],
+  "settings": {}
+}
