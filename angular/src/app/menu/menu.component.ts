@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HamburguesasService } from '@proxy/application/hamburguesa';
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +10,27 @@ import { Router } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
+  
+  hambur:any[] = []
 
-  constructor(private router: Router)
+  constructor(
+    private router: Router,
+    private hamburguesa: HamburguesasService
+  )
   {}
+  
+  ngOnInit(): void {
+
+    this.hamburguesa.getHamburguesa().subscribe(res => {
+      this.hambur = res;
+    })
+    
+    try {
+      const raw = localStorage.getItem(this.favKey);
+      if (raw) this.favorites = new Set<string>(JSON.parse(raw));
+    } catch {}
+  }
 
   promos = [
     {
@@ -135,12 +153,6 @@ export class MenuComponent {
   private favKey = 'fav-burgers';
   favorites = new Set<string>();
 
-  ngOnInit(): void {
-    try {
-      const raw = localStorage.getItem(this.favKey);
-      if (raw) this.favorites = new Set<string>(JSON.parse(raw));
-    } catch {}
-  }
 
   private saveFavs() {
     try { localStorage.setItem(this.favKey, JSON.stringify(Array.from(this.favorites))); } catch {}

@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace Servicios.Domain.Hamburguesa
 {
-    public class HamburguesasDTO 
+    public class HamburguesasDTOGet : EntityDto<Guid>
     {
         public string Nombre { get; set; }
         public string? Descripcion{ get; set; }
