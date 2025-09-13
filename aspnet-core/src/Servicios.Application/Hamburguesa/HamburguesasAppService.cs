@@ -44,7 +44,7 @@ namespace Servicios.Application.Hamburguesa
         public async Task<List<HamburguesasDTOGet>> GetHamburguesaAsync()
         {
             var hamburguesas = await _hamburguesasRepository.GetListAsync();
-            
+
             return hamburguesas
             .Select(x => new HamburguesasDTOGet
             {
@@ -57,6 +57,10 @@ namespace Servicios.Application.Hamburguesa
             })
             .ToList();
         }
+
+        
+
+        
 
     }
 }
