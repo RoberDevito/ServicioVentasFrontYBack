@@ -54,6 +54,8 @@ public class ServiciosDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     public DbSet<Hamburguesas> Hamburguesas { get; set; }
+    public DbSet<Ingrendientes> Ingredientes { get; set; }
+
 
     #endregion
 
@@ -90,13 +92,21 @@ public class ServiciosDbContext :
         builder.Entity<Hamburguesas>(b =>
         {
             b.ToTable(ServiciosConsts.DbTablePrefix + "Hamburguesas", ServiciosConsts.DbSchema);
-            b.ConfigureByConvention(); 
+            b.ConfigureByConvention();
             b.Property(x => x.Nombre).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Descripcion).IsRequired().HasMaxLength(512);
             b.Property(x => x.Precio).IsRequired().HasColumnType("decimal(18,2)");
             b.Property(x => x.ImagenUrl).HasMaxLength(256);
+            b.HasMany(x => x.ListaIngredientes).WithOne().IsRequired();
             b.Property(x => x.FechaCreacion).IsRequired();
             b.Property(x => x.FechaModificacion);
+        });
+
+        builder.Entity<Ingrendientes>(a =>
+        {
+            a.ToTable(ServiciosConsts.DbTablePrefix + "Ingredientes", ServiciosConsts.DbSchema);
+            a.ConfigureByConvention();
+            a.Property(y => y.Nombre).IsRequired().HasMaxLength(100);
+            a.Property(y => y.Cantidad).IsRequired();
         });
 
     }

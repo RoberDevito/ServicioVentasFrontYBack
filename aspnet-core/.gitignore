@@ -263,3 +263,7 @@ src/Servicios.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+
+# Config DB
+src\Servicios.DbMigrator\appsettings.json
+src\Servicios.HttpApi.Host\appsettings.json
