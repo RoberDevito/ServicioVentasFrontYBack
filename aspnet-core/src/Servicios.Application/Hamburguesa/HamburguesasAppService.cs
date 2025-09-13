@@ -32,9 +32,15 @@ namespace Servicios.Application.Hamburguesa
             var hamburguesa = new Hamburguesas
             {
                 Nombre = input.Nombre,
-                Descripcion = input.Descripcion,
                 Precio = input.Precio,
                 ImagenUrl = input.ImagenUrl,
+                ListaIngredientes = input.ListIngredientes
+                            .Select(dto => new Ingrendientes
+                {
+                    Nombre = dto.Nombre,
+                    Cantidad = dto.Cantidad,
+                })
+                .ToList(),
                 FechaCreacion = DateTime.UtcNow
             };
 
@@ -50,17 +56,17 @@ namespace Servicios.Application.Hamburguesa
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
-                Descripcion = x.Descripcion,
                 Precio = x.Precio,
                 ImagenUrl = x.ImagenUrl,
+                ListIngredientes = x.ListaIngredientes.Select(dto => new IngredientesDTO
+                {
+                    Nombre = dto.Nombre,
+                    Cantidad = dto.Cantidad,
+                }).ToList(),
                 FechaCreacion = x.FechaCreacion
             })
             .ToList();
-        }
-
-        
-
-        
+        } 
 
     }
 }

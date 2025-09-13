@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Servicios.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    partial class ServiciosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250913143253_sellservice")]
+    partial class sellservice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,11 @@ namespace Servicios.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp without time zone");
@@ -51,29 +59,6 @@ namespace Servicios.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppHamburguesas", (string)null);
-                });
-
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("HamburguesasId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HamburguesasId");
-
-                    b.ToTable("AppIngredientes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1852,15 +1837,6 @@ namespace Servicios.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
-                {
-                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", null)
-                        .WithMany("ListaIngredientes")
-                        .HasForeignKey("HamburguesasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2001,11 +1977,6 @@ namespace Servicios.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
-                {
-                    b.Navigation("ListaIngredientes");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
