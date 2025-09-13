@@ -13,6 +13,8 @@ import { HamburguesasService } from '@proxy/application/hamburguesa';
 export class MenuComponent implements OnInit {
   
   hambur:any[] = []
+  showModal = false;
+  showCart = false;
 
   constructor(
     private router: Router,
@@ -59,85 +61,7 @@ export class MenuComponent implements OnInit {
     },
   ];
 
-  burgers = [
-    {
-      id: 'clasica',
-      name: 'Clásica',
-      description: 'Carne, lechuga, tomate, cebolla y queso',
-      basePrice: 3500,
-      ingredients: ['Carne', 'Lechuga', 'Tomate', 'Cebolla', 'Queso'],
-      extras: [
-        { key: 'Queso extra', price: 300 },
-        { key: 'Bacon', price: 500 },
-        { key: 'Huevo', price: 400 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-    {
-      id: 'doble',
-      name: 'Doble Queso',
-      description: 'Doble carne y doble queso',
-      basePrice: 4800,
-      ingredients: ['Carne', 'Carne', 'Queso', 'Queso', 'Pan'],
-      extras: [
-        { key: 'Cebolla caramelizada', price: 400 },
-        { key: 'Pepinillos', price: 200 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-    {
-      id: 'bacon',
-      name: 'Bacon Cheese',
-      description: 'Carne, queso cheddar y bacon',
-      basePrice: 4200,
-      ingredients: ['Carne', 'Queso', 'Bacon', 'Pan'],
-      extras: [
-        { key: 'Queso extra', price: 300 },
-        { key: 'Huevo', price: 400 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-    {
-      id: 'criolla',
-      name: 'Criolla',
-      description: 'Carne, huevo, jamón, lechuga y tomate',
-      basePrice: 4400,
-      ingredients: ['Carne', 'Huevo', 'Jamón', 'Lechuga', 'Tomate'],
-      extras: [
-        { key: 'Queso', price: 300 },
-        { key: 'Bacon', price: 500 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-    {
-      id: 'pollo',
-      name: 'Pollo Crispy',
-      description: 'Suprema crispy, lechuga y mayo',
-      basePrice: 4000,
-      ingredients: ['Pollo', 'Lechuga', 'Mayonesa', 'Pan'],
-      extras: [
-        { key: 'Queso', price: 300 },
-        { key: 'Bacon', price: 500 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-    {
-      id: 'veg',
-      name: 'Veggie',
-      description: 'Medallón vegetal, vegetales y salsa de la casa',
-      basePrice: 3800,
-      ingredients: ['Veggie', 'Lechuga', 'Tomate', 'Cebolla', 'Salsa'],
-      extras: [
-        { key: 'Queso', price: 300 },
-        { key: 'Huevo', price: 400 },
-      ],
-      image: 'assets/promoBurger.jpg',
-    },
-  ];
-
   // Modal state
-  showModal = false;
-  showCart = false;
   selected: {
     name: string;
     basePrice: number;
@@ -150,9 +74,8 @@ export class MenuComponent implements OnInit {
   quantity = 1;
 
   // Favoritos
-  private favKey = 'fav-burgers';
+  favKey = 'fav-burgers';
   favorites = new Set<string>();
-
 
   private saveFavs() {
     try { localStorage.setItem(this.favKey, JSON.stringify(Array.from(this.favorites))); } catch {}
@@ -173,7 +96,9 @@ export class MenuComponent implements OnInit {
     this.showModal = true;
   }
 
-  closeModal() { this.showModal = false; }
+  closeModal() { 
+    this.showModal = false; 
+  }
 
   toggleRemove(ing: string) {
     if (this.removed.has(ing)) this.removed.delete(ing); else this.removed.add(ing);
@@ -194,7 +119,6 @@ export class MenuComponent implements OnInit {
   incQty() { this.quantity = this.quantity + 1; }
   decQty() { this.quantity = Math.max(1, this.quantity - 1); }
 
-  // Lightweight cart so the template can render without errors
   cart: {
     cartItems: Array<{ name: string; quantity: number; price: number; options?: { removed?: string[]; added?: string[] } }>;
     addItem: (item: { name: string; quantity: number; price: number; options?: { removed?: string[]; added?: string[] } }) => void;
@@ -210,8 +134,12 @@ export class MenuComponent implements OnInit {
     }
   };
 
-  get total() { return this.cart.cartItems.reduce((s, it) => s + it.price * it.quantity, 0); }
-  get itemCount() { return this.cart.cartItems.reduce((s, it) => s + it.quantity, 0); }
+  get total() { 
+    return this.cart.cartItems.reduce((s, it) => s + it.price * it.quantity, 0); 
+  }
+  get itemCount() { 
+    return this.cart.cartItems.reduce((s, it) => s + it.quantity, 0); 
+  }
 
   addToCart() {
     if (!this.selected) return;
@@ -240,24 +168,42 @@ export class MenuComponent implements OnInit {
   // get total() { return this.cart.total; }
   // get itemCount() { return this.cart.cartItems.reduce((s, it) => s + it.quantity, 0); }
 
-  pedir() { this.openCart(); }
-  openCart() { this.showCart = true; }
-  closeCart() { this.showCart = false; }
-  goCheckout() { this.closeCart(); this.router.navigate(['/checkout']); }
+  pedir() { 
+    this.openCart(); 
+  }
 
-  get isCheckout() { return this.router.url.startsWith('/checkout'); }
-  get isFavorites() { return this.router.url.startsWith('/favoritos'); }
+  openCart() 
+  { 
+    this.showCart = true; 
+  }
 
-  goHome() { this.router.navigateByUrl('/'); }
-  goFavorites() { this.router.navigateByUrl('/favoritos'); }
+  closeCart() { 
+    this.showCart = false; 
+  }
+
+  goCheckout() { 
+    this.closeCart(); this.router.navigate(['/checkout']); 
+  }
+
+  get isCheckout() { 
+    return this.router.url.startsWith('/checkout'); 
+  }
+
+  get isFavorites() { 
+    return this.router.url.startsWith('/favoritos'); 
+  }
+
+  goHome() { 
+    this.router.navigateByUrl('/'); 
+  }
+  goFavorites() {
+     this.router.navigateByUrl('/favoritos'); 
+  }
 
   addPromo(p: { name: string; price: number }) {
     this.cart.addItem({ name: p.name, quantity: 1, price: p.price });
   }
 
-  // addPromo(p: { name: string; price: number }) {
-  //   this.cart.addItem({ name: p.name, quantity: 1, price: p.price });
-  // }
 
   // Cantidades rápidas por burger
   private quickQty: Record<string, number> = {};
@@ -290,12 +236,14 @@ export class MenuComponent implements OnInit {
     const it = this.cart.cartItems[i];
     if (it) it.quantity += 1;
   }
+
   decCart(i: number) {
     const it = this.cart.cartItems[i];
     if (!it) return;
     it.quantity -= 1;
     if (it.quantity <= 0) this.cart.cartItems.splice(i, 1);
   }
+
   removeCart(i: number) {
     if (this.cart.cartItems[i]) this.cart.cartItems.splice(i, 1);
   }

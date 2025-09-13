@@ -30,12 +30,12 @@
       <!-- MENÚ: Hamburguesas -->
       <h3 class="categoriasTitle">Hamburguesas</h3>
       <div class="menu-list">
-        <div class="menu-item" *ngFor="let b of burgers">
-          <img [src]="b.image" alt="{{ b.name }}">
+        <div class="menu-item" *ngFor="let b of hambur">
+          <img [src]="b.imagenUrl">
           <div class="info">
-            <div class="name">{{ b.name }}</div>
-            <div class="desc">{{ b.description }}</div>
-            <div class="price">${{ b.basePrice }}</div>
+            <div class="name">{{ b.nombre }}</div>
+            <div class="desc">{{ b.descripcion }}</div>
+            <div class="price">${{ b.precio }}</div>
           </div>
           <button class="fav" [class.active]="isFav(b.id)" (click)="toggleFavorite(b.id)">
             <i class="bi" [ngClass]="isFav(b.id) ? 'bi-heart-fill' : 'bi-heart'"></i>
@@ -56,7 +56,7 @@
 
   <!-- FAB Carrito (icono redondo que abre modal) -->
   <div class="fab-cart-wrapper" *ngIf="!isCheckout">
-    <div class="cart-total-pill" *ngIf="total > 0">Total: ${{ total }}</div>
+    <!--  aca va el total <div class="cart-total-pill" *ngIf="total > 0">Total: ${{ total }}</div> -->
     <button class="fab-cart" (click)="openCart()" aria-label="Carrito">
       <i class="bi bi-bag-fill"></i>
       <span class="cart-badge" *ngIf="itemCount > 0">{{ itemCount }}</span>
@@ -72,8 +72,8 @@
   </footer>
 
   <!-- MODAL Personalización -->
-  <div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
-  <div class="modal" *ngIf="showModal">
+  <!-- <div class="app-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+  <div class="app-modal" *ngIf="showModal">
     <div class="modal-header">
       <div class="m-title">{{ selected?.name }}</div>
       <button class="close" (click)="closeModal()">×</button>
@@ -107,11 +107,11 @@
       <div class="m-price">${{ currentPrice() * quantity }}</div>
       <button class="confirm" (click)="addToCart()">Agregar al carrito</button>
     </div>
-  </div>
+  </div> -->
 
   <!-- MODAL Carrito -->
-  <div class="modal-backdrop" *ngIf="showCart" (click)="closeCart()"></div>
-  <div class="modal cart" *ngIf="showCart">
+  <div class="app-modal-backdrop" *ngIf="showCart" (click)="closeCart()"></div>
+  <div class="app-modal cart" *ngIf="showCart">
     <div class="modal-header">
       <div class="m-title">Tu carrito</div>
       <button class="close" (click)="closeCart()">×</button>
