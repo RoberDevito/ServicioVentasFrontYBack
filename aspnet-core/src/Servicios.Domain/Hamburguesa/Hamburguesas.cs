@@ -13,6 +13,7 @@ namespace Servicios.Domain.Hamburguesa
         public decimal Precio { get; set; }
         public string ImagenUrl { get; set; }
         public List<Ingrendientes> ListaIngredientes { get; set; }
+        public int Seccion { get; set; } = 0!;
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
     }
