@@ -49,27 +49,6 @@
           formControlName="piso" />
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label for="colonia" class="label">Barrio</label>
-          <input id="colonia" name="colonia" type="text" class="input-underline" placeholder="Barrio" 
-          formControlName="colonia" />
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label for="ciudad" class="label">Ciudad</label>
-          <input id="ciudad" name="ciudad" type="text" class="input-underline" placeholder="Ciudad"  
-          formControlName="ciudad" />
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label for="cp" class="label">Código postal</label>
-          <input id="cp" name="cp" type="text" class="input-underline" placeholder="5000"  
-           formControlName="cp" />
-        </div>
-      </div>
       <div class="col-12">
         <div class="form-group">
           <label for="notas" class="label">Comentarios</label>
@@ -106,8 +85,29 @@
         </div>
       </div>
     </div>
-
-    <div class="total mt-3">Total: </div>
+    
+    <div *ngIf="cart.length > 0">
+      <div class="divider"><i class="bi bi-bag-check"></i> Resumen de tu pedido</div>
+  
+      <div class="summary-list">
+        <div class="summary-item" *ngFor="let item of cart">
+          <div class="item-info">
+            <span class="item-name">{{ item.nombre }}</span>
+            <small class="item-qty">× {{ item.cantidad }}</small>
+          </div>
+          <div class="item-price">
+            ${{ item.precio * item.cantidad }}
+          </div>
+        </div>
+      </div>
+  
+    <div class="summary-total">
+        <span>Total</span>
+        <strong>${{ total }}</strong>
+      </div>
+    </div>
+      
     <button class="pay" type="submit">Confirmar pedido</button>
+    
   </form>
 </div>

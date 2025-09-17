@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HamburguesasService } from '@proxy/application/hamburguesa';
+import { CartService } from '../services/cart.service';
 
 interface CartItem {
   id: number;
@@ -31,7 +32,8 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private hamburguesa: HamburguesasService
+    private hamburguesa: HamburguesasService,
+    private Cart:CartService
   )
   {}
   
@@ -137,18 +139,22 @@ export class MenuComponent implements OnInit {
   get isCheckout() { 
     return this.router.url.startsWith('/checkout'); 
   }
-
-  get isFavorites() { 
-    return this.router.url.startsWith('/favoritos'); 
+  
+  goCheckout(){
+    this.Cart.setCarts(this.cart.cartItems)
+    this.router.navigate(['/checkout'])
   }
 
   irHome() { 
     this.router.navigateByUrl('/'); 
   }
-
+  
   irFavoritos() {
     this.router.navigateByUrl('/favoritos'); 
   }
-
+  
+  get isFavorites() { 
+    return this.router.url.startsWith('/favoritos'); 
+  }
 
 }

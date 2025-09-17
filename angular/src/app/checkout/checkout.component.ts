@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { CartItem, CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -11,9 +12,14 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 })
 export class CheckoutComponent {
 
+  cart: CartItem[] = [];
   submitted = false;
+  total = 0;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private cartService: CartService
+  ) {}
 
   data = this.fb.group({
     nombre: ['', Validators.required],
@@ -22,8 +28,8 @@ export class CheckoutComponent {
     direccion: this.fb.group({
       calle: ['', Validators.required],
       piso: [''],
+      notas: [''],
     }),
-    notas: [''],
     formaPago: ['', Validators.required],
     montoEfectivo: [''] 
   });
@@ -31,18 +37,26 @@ export class CheckoutComponent {
   ngOnInit(): void {
     const formaPagoCtrl = this.data.get('formaPago');
     const montoCtrl = this.data.get('montoEfectivo');
-
+    
     formaPagoCtrl?.valueChanges.subscribe(v => {
       if (!montoCtrl) return;
-
+      
       if (v === 'Efectivo') {
         montoCtrl.setValidators([Validators.required]);
       } else {
-        montoCtrl.clearValidators(); // 👈 mejor que pasar null
+        montoCtrl.clearValidators(); 
         montoCtrl.setValue('');
       }
       montoCtrl.updateValueAndValidity({ emitEvent: false });
     });
+    
+    this.cart = this.cartService.getCart();
+    this.updateTotal();
+    
+  }
+  
+  updateTotal() {
+    this.total = this.cart.reduce((sum, it) => sum + (it.precio * it.cantidad), 0);
   }
 
   pagar() {
