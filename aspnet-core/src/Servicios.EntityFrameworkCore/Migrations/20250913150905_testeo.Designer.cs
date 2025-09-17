@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Servicios.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    partial class ServiciosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250913150905_testeo")]
+    partial class testeo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,87 +56,7 @@ namespace Servicios.Migrations
                     b.ToTable("AppHamburguesas", (string)null);
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("ClienteEmail")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("ClienteNombre")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("ClienteTelefono")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
-
-                    b.Property<string>("Comentario")
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ExtraProperties")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("FormaPago")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Piso")
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppPedidos", (string)null);
-                });
-
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>
-=======
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -141,52 +64,6 @@ namespace Servicios.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("integer");
 
-<<<<<<< HEAD
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<Guid>("HamburguesaId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid>("PedidoId")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HamburguesaId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("AppPedidoItems", (string)null);
-=======
                     b.Property<Guid>("HamburguesasId")
                         .HasColumnType("uuid");
 
@@ -200,7 +77,6 @@ namespace Servicios.Migrations
                     b.HasIndex("HamburguesasId");
 
                     b.ToTable("AppIngredientes", (string)null);
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1979,25 +1855,6 @@ namespace Servicios.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>
-                {
-                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
-                        .WithMany()
-                        .HasForeignKey("HamburguesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Servicios.Domain.Hamburguesa.Pedido", "Pedido")
-                        .WithMany("Items")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hamburguesa");
-
-                    b.Navigation("Pedido");
-=======
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
                 {
                     b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", null)
@@ -2005,7 +1862,6 @@ namespace Servicios.Migrations
                         .HasForeignKey("HamburguesasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2150,15 +2006,9 @@ namespace Servicios.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
-                {
-                    b.Navigation("Items");
-=======
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
                 {
                     b.Navigation("ListaIngredientes");
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

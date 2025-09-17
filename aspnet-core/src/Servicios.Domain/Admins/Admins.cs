@@ -9,12 +9,11 @@ namespace Servicios.Domain.Hamburguesa
 {
     public class Admins : Entity<Guid>
     {
-        public string name { get; set; } = null!;
-        public string lastname { get; set; } = null!;
-        public string email { get; set; } = null!;
-        public string password { get; set; } = null!;
-
-        public DateTime created { get; set; } = DateTime.Now;
+        public string Nombre { get; set; } = null!;
+        public string Apellido { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Contraseña { get; set; } = null!;
+        public DateTime FechaCreaion { get; set; } = DateTime.Now;
 
     }
 }
