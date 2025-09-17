@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Servicios.Domain.Hamburguesa;
+using Servicios.Pedidos;
 
 namespace Servicios;
 
@@ -6,8 +8,12 @@ public class ServiciosApplicationAutoMapperProfile : Profile
 {
     public ServiciosApplicationAutoMapperProfile()
     {
-        /* You can configure your AutoMapper mapping configuration here.
-         * Alternatively, you can split your mapping configurations
-         * into multiple profile classes for a better organization. */
+         // Entidad → DTO
+            CreateMap<Pedido, PedidoDto>();
+            CreateMap<PedidoItems, PedidoItemDto>();
+
+            // DTO → Entidad
+            CreateMap<CrearPedidoDto, Pedido>();
+            CreateMap<CrearPedidoItemDto, PedidoItems>();
     }
 }

@@ -52,8 +52,11 @@ public class ServiciosDbContext :
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
-
     public DbSet<Hamburguesas> Hamburguesas { get; set; }
+    public DbSet<Pedido> Pedido { get; set; }
+
+    public DbSet<PedidoItems> PedidoItems{ get; set; }
+
     public DbSet<Ingrendientes> Ingredientes { get; set; }
 
 
@@ -101,6 +104,44 @@ public class ServiciosDbContext :
             b.Property(x => x.FechaModificacion);
         });
 
+        builder.Entity<Pedido>(b =>
+        {
+            b.ToTable(ServiciosConsts.DbTablePrefix + "Pedidos", ServiciosConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.ClienteNombre).IsRequired().HasMaxLength(128);
+            b.Property(x => x.ClienteTelefono).IsRequired().HasMaxLength(32);
+            b.Property(x => x.ClienteEmail).HasMaxLength(128);
+            b.Property(x => x.Calle).IsRequired().HasMaxLength(256);
+            b.Property(x => x.Piso).HasMaxLength(32);
+            b.Property(x => x.Comentario).HasMaxLength(512);
+
+            b.Property(x => x.FormaPago).IsRequired().HasMaxLength(64);
+            b.Property(x => x.Total).IsRequired().HasColumnType("decimal(18,2)");
+
+            b.HasMany(p => p.Items)
+            .WithOne(i => i.Pedido)
+            .HasForeignKey(i => i.PedidoId);
+        });
+
+        builder.Entity<PedidoItems>(b =>
+        {
+            b.ToTable(ServiciosConsts.DbTablePrefix + "PedidoItems", ServiciosConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.Cantidad).IsRequired();
+            b.Property(x => x.PrecioUnitario).IsRequired().HasColumnType("decimal(18,2)");
+
+            // Relación con Pedido
+            b.HasOne(i => i.Pedido)
+            .WithMany(p => p.Items)
+            .HasForeignKey(i => i.PedidoId);
+
+            // Relación con Hamburguesa
+            b.HasOne(i => i.Hamburguesa)
+            .WithMany()
+            .HasForeignKey(i => i.HamburguesaId);
+        });
+
         builder.Entity<Ingrendientes>(a =>
         {
             a.ToTable(ServiciosConsts.DbTablePrefix + "Ingredientes", ServiciosConsts.DbSchema);
@@ -108,6 +149,6 @@ public class ServiciosDbContext :
             a.Property(y => y.Nombre).IsRequired().HasMaxLength(100);
             a.Property(y => y.Cantidad).IsRequired();
         });
-
+        
     }
 }

@@ -10,6 +10,10 @@ export const appRoutes: Routes = [
   {
     path: 'administrador',
     component: AdminComponent
+  },
+  {
+    path:'checkout',
+    loadComponent: () => import('./checkout/checkout.component').then(m => m.CheckoutComponent)
   }
   // {
   //   path: '',
