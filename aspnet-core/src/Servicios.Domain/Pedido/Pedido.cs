@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Servicios.Domain.Hamburguesa
 {
-    public class Pedido : AuditedAggregateRoot<Guid>
+    public class Pedido : Entity<Guid>
     {
         //datos cliente
         public string ClienteNombre { get; set; }
@@ -21,8 +21,11 @@ namespace Servicios.Domain.Hamburguesa
         public string FormaPago { get; set; }
         public decimal Total { get; set; }
         public PedidoEstado Estado { get; set; } = PedidoEstado.PendientePago;
-
         public ICollection<PedidoItems> Items { get; set; }
+        public Pedido()
+        {
+            Id = Guid.NewGuid();
+        }
 
     }
 }

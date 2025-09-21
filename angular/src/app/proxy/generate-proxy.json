@@ -3739,22 +3739,6 @@
     }
   },
   "types": {
-    "PedidoEstado": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "PendientePago",
-        "Pagado",
-        "Cancelado"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
     "Servicios.Domain.Hamburguesa.HamburguesasDTO": {
       "baseType": null,
       "isEnum": false,
@@ -3916,6 +3900,22 @@
           "regex": null
         }
       ]
+    },
+    "Servicios.Domain.Hamburguesa.PedidoEstado": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "PendientePago",
+        "Pagado",
+        "Cancelado"
+      ],
+      "enumValues": [
+        0,
+        1,
+        2
+      ],
+      "genericArguments": null,
+      "properties": null
     },
     "Servicios.Pedidos.CrearPedidoDto": {
       "baseType": null,
@@ -4185,7 +4185,7 @@
         {
           "name": "Estado",
           "jsonName": null,
-          "type": "PedidoEstado",
+          "type": "Servicios.Domain.Hamburguesa.PedidoEstado",
           "typeSimple": "enum",
           "isRequired": false,
           "minLength": null,

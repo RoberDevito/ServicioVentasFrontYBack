@@ -34,6 +34,7 @@ namespace Servicios.Pedidos
                     HamburguesaId = i.HamburguesaId,
                     Cantidad = i.Cantidad,
                     PrecioUnitario = i.PrecioUnitario
+
                 }).ToList()
             };
 
