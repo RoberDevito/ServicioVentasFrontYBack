@@ -142,7 +142,11 @@
     </div>
     <div class="modal-footer">
       <div class="m-price">Total: ${{ total }}</div>
-      <button class="confirm" (click)="goCheckout()">Continuar</button>
+      <button class="confirm"
+       (click)="goCheckout()"
+       [disabled]="cart.cartItems.length === 0">
+        Continuar
+      </button>
     </div>
   </div>
   

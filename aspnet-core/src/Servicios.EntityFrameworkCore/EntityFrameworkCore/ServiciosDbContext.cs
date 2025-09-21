@@ -118,6 +118,10 @@ public class ServiciosDbContext :
             b.Property(x => x.FormaPago).IsRequired().HasMaxLength(64);
             b.Property(x => x.Total).IsRequired().HasColumnType("decimal(18,2)");
 
+              b.Property(x => x.Estado)
+                .HasConversion<string>()
+                .IsRequired();
+
             b.HasMany(p => p.Items)
             .WithOne(i => i.Pedido)
             .HasForeignKey(i => i.PedidoId);

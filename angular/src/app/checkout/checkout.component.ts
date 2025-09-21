@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CartItem, CartService } from '../services/cart.service';
+import { PedidoDto, PedidoService } from '@proxy/pedidos';
 
 @Component({
   selector: 'app-checkout',
@@ -18,7 +19,8 @@ export class CheckoutComponent {
 
   constructor(
     private fb: FormBuilder,
-    private cartService: CartService
+    private cartService: CartService,
+    private pedido:PedidoService
   ) {}
 
   data = this.fb.group({
@@ -65,7 +67,36 @@ export class CheckoutComponent {
     if (this.data.valid) {
       console.log('✅ Formulario válido');
       console.log('Datos del cliente:', this.data.value);
-      alert(`Pago simulado por $${this.data.value.montoEfectivo ?? 0}`);
+      
+      const pedido: PedidoDto = {
+        clienteEmail: this.data.value.correo!,
+        clienteNombre: this.data.value.nombre!,
+        clienteTelefono: this.data.value.telefono!,
+        calle: this.data.value.direccion?.calle!,
+        piso: this.data.value.direccion?.piso ?? '',
+        formaPago: this.data.value.formaPago!,
+        total: this.total,
+        estado: 0, // PedidoEstado.PendientePago en el back (si usás int)
+        items: this.cart.map(it => ({
+          cantidad: it.cantidad,
+          precioUnitario: it.precio,
+          hamburguesaId: String(it.id)
+        }))
+      };
+
+      this.pedido.crear(pedido).subscribe({
+        next: (r) =>{
+          console.log("exitosa",r)
+        },
+        error: (r) => {
+          console.log("error", r)
+        }
+      })
+
+      this.cartService.clearCart();
+      this.cart = [];
+      this.total = 0;
+
     } else {
       console.warn('⚠️ Complete los campos faltantes');
       this.data.markAllAsTouched();

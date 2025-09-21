@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Servicios.Domain.Hamburguesa;
 using Volo.Abp.Application.Dtos;
 
 namespace Servicios.Pedidos

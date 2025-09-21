@@ -1,6 +1,9 @@
-public enum PedidoEstado
+namespace Servicios.Domain.Hamburguesa
 {
-    PendientePago,
-    Pagado,
-    Cancelado
+    public enum PedidoEstado
+    {
+        PendientePago = 0,
+        Pagado = 1,
+        Cancelado = 2
+    }
 }

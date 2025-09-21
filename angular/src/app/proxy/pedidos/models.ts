@@ -1,4 +1,5 @@
 import type { EntityDto } from '@abp/ng.core';
+import type { PedidoEstado } from '../domain/hamburguesa/pedido-estado.enum';
 
 export interface CrearPedidoDto {
   clienteNombre?: string;

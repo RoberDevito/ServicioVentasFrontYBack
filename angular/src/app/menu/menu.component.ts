@@ -132,7 +132,7 @@ export class MenuComponent implements OnInit {
   }
 
   irCheck() { 
-    this.cerrarCart(); 
+    this.cerrarCart();
     this.router.navigate(['/checkout']); 
   }
 
@@ -140,9 +140,9 @@ export class MenuComponent implements OnInit {
     return this.router.url.startsWith('/checkout'); 
   }
   
-  goCheckout(){
-    this.Cart.setCarts(this.cart.cartItems)
-    this.router.navigate(['/checkout'])
+  goCheckout() {
+    this.Cart.setCarts(this.cart.cartItems); // 👈 ahora sí recibe un array
+    this.router.navigate(['/checkout']);
   }
 
   irHome() { 
