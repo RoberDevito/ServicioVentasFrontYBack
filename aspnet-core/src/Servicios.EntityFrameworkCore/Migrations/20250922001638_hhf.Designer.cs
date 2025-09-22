@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    [Migration("20250920043608_nose")]
-    partial class nose
+    [Migration("20250922001638_hhf")]
+    partial class hhf
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,6 @@ namespace Servicios.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp without time zone");
@@ -56,9 +51,35 @@ namespace Servicios.Migrations
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Seccion")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("AppHamburguesas", (string)null);
+                });
+
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("HamburguesaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HamburguesaId");
+
+                    b.ToTable("AppIngredientes", (string)null);
                 });
 
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
@@ -89,14 +110,6 @@ namespace Servicios.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)");
 
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CreatorId");
-
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("text");
@@ -105,14 +118,6 @@ namespace Servicios.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("LastModifierId");
 
                     b.Property<string>("Piso")
                         .HasMaxLength(32)
@@ -134,24 +139,8 @@ namespace Servicios.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CreatorId");
-
                     b.Property<Guid>("HamburguesaId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("LastModifierId");
 
                     b.Property<Guid>("PedidoId")
                         .HasColumnType("uuid");
@@ -1944,6 +1933,17 @@ namespace Servicios.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
+                {
+                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
+                        .WithMany("ListaIngredientes")
+                        .HasForeignKey("HamburguesaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hamburguesa");
+                });
+
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>
                 {
                     b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
@@ -2103,6 +2103,11 @@ namespace Servicios.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
+                {
+                    b.Navigation("ListaIngredientes");
                 });
 
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>

@@ -7,7 +7,7 @@
       <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Doble Queso" />
       <div class="error" *ngIf="f.nombre?.touched && f.nombre?.invalid">
         <span *ngIf="f.nombre?.errors?.['required']">El nombre es obligatorio.</span>
-        <span *ngIf="f.nombre?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+        <span *ngIf="f.nombre?.errors?.['minlength']">Minimo 3 caracteres.</span>
       </div>
     </div>
 
@@ -21,14 +21,6 @@
     </div>
 
     <div class="field">
-      <label for="descripcion">Descripción</label>
-      <textarea id="descripcion" rows="3" formControlName="descripcion" placeholder="Opcional"></textarea>
-      <div class="error" *ngIf="f.descripcion?.touched && f.descripcion?.invalid">
-        <span *ngIf="f.descripcion?.errors?.['maxlength']">Máximo 300 caracteres.</span>
-      </div>
-    </div>
-
-    <div class="field">
       <label for="imagenUrl">Imagen (URL)</label>
       <input id="imagenUrl" type="url" formControlName="imagenUrl" placeholder="https://..." />
       <div class="error" *ngIf="f.imagenUrl?.touched && f.imagenUrl?.invalid">
@@ -36,21 +28,45 @@
       </div>
     </div>
 
+    <div class="field ingredientes" formArrayName="listIngredientes">
+      <label>Ingredientes</label>
+      <div class="ingrediente" *ngFor="let ingrediente of ingredientes.controls; let i = index" [formGroupName]="i">
+        <div class="inputs">
+          <input type="text" placeholder="Nombre" formControlName="nombre" />
+          <input type="number" min="1" placeholder="Cant." formControlName="cantidad" />
+          <button type="button" (click)="removeIngrediente(i)" [disabled]="ingredientes.length === 1">Quitar</button>
+        </div>
+        <div class="error" *ngIf="ingrediente.get('nombre')?.touched && ingrediente.get('nombre')?.invalid">
+          <span *ngIf="ingrediente.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+          <span *ngIf="ingrediente.get('nombre')?.errors?.['minlength']">Minimo 2 caracteres.</span>
+        </div>
+        <div class="error" *ngIf="ingrediente.get('cantidad')?.touched && ingrediente.get('cantidad')?.invalid">
+          <span *ngIf="ingrediente.get('cantidad')?.errors?.['required']">La cantidad es obligatoria.</span>
+          <span *ngIf="ingrediente.get('cantidad')?.errors?.['min']">Debe ser 1 o mas.</span>
+        </div>
+      </div>
+      <button type="button" class="add" (click)="addIngrediente()">Agregar ingrediente</button>
+    </div>
+
     <div class="actions">
       <button type="submit" [disabled]="form.invalid">Guardar</button>
     </div>
   </form>
 
-  <div class="preview" *ngIf="form.value.nombre || form.value.precio || form.value.descripcion || form.value.imagenUrl">
+  <div class="preview" *ngIf="form.value.nombre || form.value.precio || form.value.descripcion || form.value.imagenUrl || hasIngredientes()">
     <h3>Vista previa</h3>
     <div class="card">
       <img *ngIf="form.value.imagenUrl" [src]="form.value.imagenUrl!" alt="preview" (error)="form.patchValue({ imagenUrl: '' })">
       <div class="info">
         <strong>{{ form.value.nombre || 'Sin nombre' }}</strong>
-        <span class="price" *ngIf="form.value.precio">${{ form.value.precio }}</span>
+        <span class="price" *ngIf="form.value.precio">{{ form.value.precio }}</span>
         <p class="desc" *ngIf="form.value.descripcion">{{ form.value.descripcion }}</p>
+        <ul class="ingredientes-list" *ngIf="hasIngredientes()">
+          <ng-container *ngFor="let ing of ingredientesPreview">
+            <li *ngIf="ing?.nombre">{{ ing?.cantidad }} x {{ ing?.nombre }}</li>
+          </ng-container>
+        </ul>
       </div>
     </div>
   </div>
 </div>
-
