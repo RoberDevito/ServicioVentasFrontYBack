@@ -48,12 +48,37 @@ namespace Servicios.Migrations
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Seccion")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("AppHamburguesas", (string)null);
                 });
 
-<<<<<<< HEAD
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("HamburguesaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HamburguesaId");
+
+                    b.ToTable("AppIngredientes", (string)null);
+                });
+
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
                 {
                     b.Property<Guid>("Id")
@@ -104,9 +129,6 @@ namespace Servicios.Migrations
                 });
 
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>
-=======
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -114,7 +136,6 @@ namespace Servicios.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("integer");
 
-<<<<<<< HEAD
                     b.Property<Guid>("HamburguesaId")
                         .HasColumnType("uuid");
 
@@ -131,21 +152,6 @@ namespace Servicios.Migrations
                     b.HasIndex("PedidoId");
 
                     b.ToTable("AppPedidoItems", (string)null);
-=======
-                    b.Property<Guid>("HamburguesasId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HamburguesasId");
-
-                    b.ToTable("AppIngredientes", (string)null);
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1924,7 +1930,17 @@ namespace Servicios.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-<<<<<<< HEAD
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
+                {
+                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
+                        .WithMany("ListaIngredientes")
+                        .HasForeignKey("HamburguesaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hamburguesa");
+                });
+
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>
                 {
                     b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
@@ -1942,15 +1958,6 @@ namespace Servicios.Migrations
                     b.Navigation("Hamburguesa");
 
                     b.Navigation("Pedido");
-=======
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
-                {
-                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", null)
-                        .WithMany("ListaIngredientes")
-                        .HasForeignKey("HamburguesasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2095,15 +2102,14 @@ namespace Servicios.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
-                {
-                    b.Navigation("Items");
-=======
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
                 {
                     b.Navigation("ListaIngredientes");
->>>>>>> bf7c3fad347bd52dbd958ef7b0a7bd3eadf69eec
+                });
+
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Pedido", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

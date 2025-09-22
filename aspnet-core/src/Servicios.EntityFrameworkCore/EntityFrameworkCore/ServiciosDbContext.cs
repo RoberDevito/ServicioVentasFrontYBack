@@ -57,7 +57,7 @@ public class ServiciosDbContext :
 
     public DbSet<PedidoItems> PedidoItems{ get; set; }
 
-    public DbSet<Ingrendientes> Ingredientes { get; set; }
+    public DbSet<Ingrediente> Ingredientes { get; set; }
 
 
     #endregion
@@ -102,6 +102,11 @@ public class ServiciosDbContext :
             b.HasMany(x => x.ListaIngredientes).WithOne().IsRequired();
             b.Property(x => x.FechaCreacion).IsRequired();
             b.Property(x => x.FechaModificacion);
+
+            b.HasMany(x => x.ListaIngredientes)
+            .WithOne(i => i.Hamburguesa)
+            .HasForeignKey(i => i.HamburguesaId);
+
         });
 
         builder.Entity<Pedido>(b =>
@@ -146,7 +151,7 @@ public class ServiciosDbContext :
             .HasForeignKey(i => i.HamburguesaId);
         });
 
-        builder.Entity<Ingrendientes>(a =>
+        builder.Entity<Ingrediente>(a =>
         {
             a.ToTable(ServiciosConsts.DbTablePrefix + "Ingredientes", ServiciosConsts.DbSchema);
             a.ConfigureByConvention();
