@@ -981,6 +981,21 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Servicios.Pedidos.PedidoAppService"
+            },
+            "GetListAsync": {
+              "uniqueName": "GetListAsync",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/pedido",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<Servicios.Pedidos.PedidoDto>",
+                "typeSimple": "[Servicios.Pedidos.PedidoDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Servicios.Pedidos.PedidoAppService"
             }
           }
         }
@@ -3923,8 +3938,8 @@
         {
           "name": "Cantidad",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

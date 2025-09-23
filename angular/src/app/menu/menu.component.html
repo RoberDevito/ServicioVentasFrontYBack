@@ -7,9 +7,9 @@
   </header>
 
   <!-- CONTENIDO -->
-  <!-- <main class="contenido"> -->
+  <main class="contenido">
 
-    <!-- <ng-container *ngIf="!isCheckout && !isFavorites"> -->
+    <ng-container *ngIf="!isCheckout && !isFavorites">
 
       <!-- PROMOS -->
       <!-- <h3 class="promoTitle">Promos</h3>
@@ -29,31 +29,40 @@
       </div> -->
 
       <!-- MENÚ: Hamburguesas -->
-      <!-- <h3 class="categoriasTitle">Hamburguesas</h3>
+      <h3 class="categoriasTitle">Hamburguesas</h3>
       <div class="menu-list">
         <div class="menu-item" *ngFor="let b of hambur">
           <img [src]="b.imagenUrl">
           <div class="info">
             <div class="name">{{ b.nombre }}</div>
-            <div class="desc">{{ b.descripcion }}</div>
+
+            <!-- Lista de ingredientes -->
+            <div class="desc">
+              <span *ngFor="let ing of b.listIngredientes; let last = last">
+                {{ ing.nombre }}<span *ngIf="!last">, </span>
+              </span>
+            </div>
+
             <div class="price">${{ b.precio }}</div>
           </div>
-          <button class="fav" [class.active]="isFav(b.id)" (click)="toggleFavorite(b.id)">
+
+          <!-- <button class="fav" [class.active]="isFav(b.id)" (click)="toggleFavorite(b.id)">
             <i class="bi" [ngClass]="isFav(b.id) ? 'bi-heart-fill' : 'bi-heart'"></i>
-          </button>
+          </button> -->
+
           <div class="actions">
             <div class="qty-mini">
-              <button (click)="descrementar(b)" >-</button>
-              <span>{{b.cantidad}}</span>
-              <button (click)="incrementar(b)" >+</button>
+              <button (click)="descrementar(b)">-</button>
+              <span>{{ b.cantidad }}</span>
+              <button (click)="incrementar(b)">+</button>
             </div>
             <button class="btn ghost">Personalizar</button>
-            <button class="btn primary" (click)="agregarCarrito(b)" >Pedir</button>
+            <button class="btn primary" (click)="agregarCarrito(b)">Pedir</button>
           </div>
         </div>
-      </div> -->
-    <!-- </ng-container> -->
-  <!-- </main> -->
+      </div>
+    </ng-container>
+  </main>
   
   <!-- FAB Carrito (icono redondo que abre modal) -->
   <div class="fab-cart-wrapper" *ngIf="!isCheckout">
