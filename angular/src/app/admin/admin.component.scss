@@ -1,0 +1,58 @@
+.form-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h2 {
+  margin: 0 0 16px;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input, textarea {
+  padding: 8px 10px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: #6e9fff;
+  box-shadow: 0 0 0 3px rgba(104, 159, 255, 0.2);
+}
+
+.error { color: #b42318; font-size: 12px; }
+
+.actions { margin-top: 8px; }
+
+button[type="submit"] {
+  background: #111827;
+  color: white;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+.preview { margin-top: 24px; }
+.card { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: start; }
+.card img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; }
+.card .info { display: grid; gap: 4px; }
+.price { color: #16a34a; }
+.desc { color: #374151; margin: 0; }
+

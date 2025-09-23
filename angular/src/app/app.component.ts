@@ -8,6 +8,7 @@ import { DynamicLayoutComponent } from '@abp/ng.core';
   template: `
     <router-outlet></router-outlet>
   `,
+  standalone: true,
   imports: [RouterOutlet, LoaderBarComponent, DynamicLayoutComponent, InternetConnectionStatusComponent],
 })
 export class AppComponent {}

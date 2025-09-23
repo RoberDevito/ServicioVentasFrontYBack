@@ -10,8 +10,9 @@
   <main class="contenido">
 
     <ng-container *ngIf="!isCheckout && !isFavorites">
+
       <!-- PROMOS -->
-      <h3 class="promoTitle">Promos</h3>
+      <!-- <h3 class="promoTitle">Promos</h3>
       <div class="promo-list">
         <div class="promo-card" *ngFor="let p of promos">
           <img class="promo-img" [src]="p.image" alt="{{ p.name }}">
@@ -25,62 +26,71 @@
           </div>
           <button class="promo-add" (click)="addPromo(p)"><i class="bi bi-plus-lg"></i> Agregar</button>
         </div>
-      </div>
+      </div> -->
 
       <!-- MENÚ: Hamburguesas -->
       <h3 class="categoriasTitle">Hamburguesas</h3>
       <div class="menu-list">
-        <div class="menu-item" *ngFor="let b of burgers">
-          <img [src]="b.image" alt="{{ b.name }}">
+        <div class="menu-item" *ngFor="let b of hambur">
+          <img [src]="b.imagenUrl">
           <div class="info">
-            <div class="name">{{ b.name }}</div>
-            <div class="desc">{{ b.description }}</div>
-            <div class="price">${{ b.basePrice }}</div>
+            <div class="name">{{ b.nombre }}</div>
+
+            <!-- Lista de ingredientes -->
+            <div class="desc">
+              <span *ngFor="let ing of b.listIngredientes; let last = last">
+                {{ ing.nombre }}<span *ngIf="!last">, </span>
+              </span>
+            </div>
+
+            <div class="price">${{ b.precio }}</div>
           </div>
-          <button class="fav" [class.active]="isFav(b.id)" (click)="toggleFavorite(b.id)">
+
+          <!-- <button class="fav" [class.active]="isFav(b.id)" (click)="toggleFavorite(b.id)">
             <i class="bi" [ngClass]="isFav(b.id) ? 'bi-heart-fill' : 'bi-heart'"></i>
-          </button>
+          </button> -->
+
           <div class="actions">
             <div class="qty-mini">
-              <button (click)="decQuickQty(b.id)">-</button>
-              <span>{{ getQuickQty(b.id) }}</span>
-              <button (click)="incQuickQty(b.id)">+</button>
+              <button (click)="descrementar(b)">-</button>
+              <span>{{ b.cantidad }}</span>
+              <button (click)="incrementar(b)">+</button>
             </div>
-            <button class="btn ghost" (click)="openModal(b)">Personalizar</button>
-            <button class="btn primary" (click)="quickOrder(b)">Pedir</button>
+            <button class="btn ghost">Personalizar</button>
+            <button class="btn primary" (click)="agregarCarrito(b)">Pedir</button>
           </div>
         </div>
       </div>
     </ng-container>
   </main>
-
+  
   <!-- FAB Carrito (icono redondo que abre modal) -->
   <div class="fab-cart-wrapper" *ngIf="!isCheckout">
-    <div class="cart-total-pill" *ngIf="total > 0">Total: ${{ total }}</div>
+   <div class="cart-total-pill" *ngIf="total > 0">Total: ${{ total }}</div>
     <button class="fab-cart" (click)="openCart()" aria-label="Carrito">
       <i class="bi bi-bag-fill"></i>
       <span class="cart-badge" *ngIf="itemCount > 0">{{ itemCount }}</span>
     </button>
   </div>
-
+  
   <!-- FOOTER -->
   <footer class="footer">
-    <i class="bi bi-house" aria-label="Inicio" (click)="goHome()"></i>
-    <i class="bi bi-heart" aria-label="Favoritos" (click)="goFavorites()"></i>
+    <i class="bi bi-house" aria-label="Inicio" (click)="irHome()"></i>
+    <i class="bi bi-heart" aria-label="Favoritos" (click)="irFavoritos()"></i>
     <i class="bi bi-receipt" aria-label="Pedidos"></i>
     <i class="bi bi-person" aria-label="Perfil"></i>
   </footer>
 
   <!-- MODAL Personalización -->
-  <div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
-  <div class="modal" *ngIf="showModal">
+  <!-- <div class="app-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+  <div class="app-modal" *ngIf="showModal">
     <div class="modal-header">
       <div class="m-title">{{ selected?.name }}</div>
       <button class="close" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
       <img class="m-img" [src]="selected?.image" alt="{{ selected?.name }}">
-
+      
       <div class="section">
         <div class="label">Quitar ingredientes</div>
         <label class="chip" *ngFor="let ing of selected?.ingredients">
@@ -88,7 +98,7 @@
           <span>Sin {{ ing }}</span>
         </label>
       </div>
-
+      
       <div class="section">
         <div class="label">Agregar extras</div>
         <label class="chip" *ngFor="let ex of selected?.extras">
@@ -96,7 +106,7 @@
           <span>{{ ex.key }} (+${{ ex.price }})</span>
         </label>
       </div>
-
+      
       <div class="qty">
         <button (click)="decQty()">-</button>
         <span>{{ quantity }}</span>
@@ -107,20 +117,20 @@
       <div class="m-price">${{ currentPrice() * quantity }}</div>
       <button class="confirm" (click)="addToCart()">Agregar al carrito</button>
     </div>
-  </div>
+  </div> -->
 
   <!-- MODAL Carrito -->
-  <div class="modal-backdrop" *ngIf="showCart" (click)="closeCart()"></div>
-  <div class="modal cart" *ngIf="showCart">
+  <div class="app-modal-backdrop" *ngIf="showCart" (click)="cerrarCart()"></div>
+  <div class="app-modal cart" *ngIf="showCart">
     <div class="modal-header">
       <div class="m-title">Tu carrito</div>
-      <button class="close" (click)="closeCart()">×</button>
+      <button class="close" (click)="cerrarCart()">×</button>
     </div>
     <div class="modal-body">
       <div *ngIf="cart.cartItems.length; else emptyCart">
         <div class="cart-row" *ngFor="let it of cart.cartItems; let i = index">
           <div class="cart-info">
-            <div class="name">{{ it.name }}</div>
+            <div class="name">{{ it.nombre }}</div>
             <div class="opts" *ngIf="it.options && (it.options.removed?.length || it.options.added?.length)">
               <span *ngIf="it.options.removed?.length">Sin {{ it.options.removed.join(', ') }}</span>
               <span *ngIf="it.options.added?.length"> | Extra {{ it.options.added.join(', ') }}</span>
@@ -128,10 +138,10 @@
           </div>
           <div class="cart-qty">
             <button (click)="decCart(i)">-</button>
-            <span>{{ it.quantity }}</span>
+            <span>{{ it.cantidad }}</span>
             <button (click)="incCart(i)">+</button>
           </div>
-          <div class="cart-price">${{ it.price * it.quantity }}</div>
+          <div class="cart-price">${{ it.precio * it.cantidad }}</div>
           <button class="cart-remove" (click)="removeCart(i)"><i class="bi bi-x"></i></button>
         </div>
       </div>
@@ -141,8 +151,12 @@
     </div>
     <div class="modal-footer">
       <div class="m-price">Total: ${{ total }}</div>
-      <button class="confirm" (click)="goCheckout()">Continuar</button>
+      <button class="confirm"
+       (click)="goCheckout()"
+       [disabled]="cart.cartItems.length === 0">
+        Continuar
+      </button>
     </div>
   </div>
-
+  
 </div>
