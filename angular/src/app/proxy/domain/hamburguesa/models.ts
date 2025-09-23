@@ -20,5 +20,5 @@ export interface HamburguesasDTOGet extends EntityDto<string> {
 
 export interface IngredientesDTO extends EntityDto<string> {
   nombre?: string;
-  cantidad: number;
+  cantidad?: number;
 }

@@ -16,6 +16,14 @@ export class PedidoService {
       body: input,
     },
     { apiName: this.apiName,...config });
+  
+
+  getList = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PedidoDto[]>({
+      method: 'GET',
+      url: '/api/app/pedido',
+    },
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }
