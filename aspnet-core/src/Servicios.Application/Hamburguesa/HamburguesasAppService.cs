@@ -35,7 +35,7 @@ namespace Servicios.Application.Hamburguesa
                 Precio = input.Precio,
                 ImagenUrl = input.ImagenUrl,
                 ListaIngredientes = input.ListIngredientes
-                            .Select(dto => new Ingrendientes
+                            .Select(dto => new Ingrediente 
                 {
                     Nombre = dto.Nombre,
                     Cantidad = dto.Cantidad,
@@ -49,7 +49,7 @@ namespace Servicios.Application.Hamburguesa
 
         public async Task<List<HamburguesasDTOGet>> GetHamburguesaAsync()
         {
-            var hamburguesas = await _hamburguesasRepository.GetListAsync();
+            var hamburguesas = await _hamburguesasRepository.WithDetailsAsync(x => x.ListaIngredientes);
 
             return hamburguesas
             .Select(x => new HamburguesasDTOGet
@@ -58,12 +58,15 @@ namespace Servicios.Application.Hamburguesa
                 Nombre = x.Nombre,
                 Precio = x.Precio,
                 ImagenUrl = x.ImagenUrl,
-                ListIngredientes = x.ListaIngredientes.Select(dto => new IngredientesDTO
-                {
-                    Nombre = dto.Nombre,
-                    Cantidad = dto.Cantidad,
-                }).ToList(),
-                FechaCreacion = x.FechaCreacion
+                ListIngredientes = x.ListaIngredientes
+                    .Select(dto => new IngredientesDTO
+                    {
+                        Nombre = dto.Nombre,
+                        Cantidad = dto.Cantidad,
+
+                    }).ToList(),
+                FechaCreacion = x.FechaCreacion,
+                FechaModificacion = x.FechaModificacion
             })
             .ToList();
         } 
