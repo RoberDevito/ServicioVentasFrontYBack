@@ -19,7 +19,6 @@ namespace Servicios.Pedidos
 
         // Pago
         public string FormaPago { get; set; }
-        public decimal Total { get; set; }
 
         public List<CrearPedidoItemDto> Items { get; set; }
     }
