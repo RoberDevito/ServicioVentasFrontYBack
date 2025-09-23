@@ -54,29 +54,29 @@ namespace Servicios.Pedidos
 
         // Obtener un pedido por Id, incluyendo items y nombre de hamburguesa
         public async Task<PedidoDto> GetOneByIdAsync(Guid id)
-{
-    var pedido = await _pedidoRepository.FindAsync(
-        predicate: p => p.Id == id,
-        includeDetails: true
-    );
+        {
+            var pedido = await _pedidoRepository.FindAsync(
+                predicate: p => p.Id == id,
+                includeDetails: true
+            );
 
-    if (pedido == null)
-    {
-        throw new UserFriendlyException("Pedido no encontrado");
-    }
+            if (pedido == null)
+            {
+                throw new UserFriendlyException("Pedido no encontrado");
+            }
 
-    var pedidoDto = ObjectMapper.Map<Pedido, PedidoDto>(pedido);
+            var pedidoDto = ObjectMapper.Map<Pedido, PedidoDto>(pedido);
 
-    var hamburguesas = await _hamburguesaRepository.GetListAsync();
+            var hamburguesas = await _hamburguesaRepository.GetListAsync();
 
-    foreach (var itemDto in pedidoDto.Items)
-    {
-        itemDto.NombreHamburguesa = hamburguesas
-            .FirstOrDefault(h => h.Id == itemDto.HamburguesaId)?.Nombre;
-    }
+            foreach (var itemDto in pedidoDto.Items)
+            {
+                itemDto.NombreHamburguesa = hamburguesas
+                    .FirstOrDefault(h => h.Id == itemDto.HamburguesaId)?.Nombre;
+            }
 
-    return pedidoDto;
-}
+            return pedidoDto;
+        }
 
 }
 }
