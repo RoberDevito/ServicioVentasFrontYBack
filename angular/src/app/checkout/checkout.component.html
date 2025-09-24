@@ -1,0 +1,113 @@
+<div class="checkout">
+
+  <form [formGroup]="data" (ngSubmit)="pagar()" novalidate class="flat-form">
+    <!-- Datos generales -->
+    <div class="divider"><i class="bi bi-person"></i> Datos generales</div>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="correo" class="label">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" class="input-underline" placeholder="ejemplo@gmail.com"  
+          formControlName="correo"
+          />
+          <div class="error" *ngIf="data.get('correo')?.hasError('required') && (data.get('correo')?.touched || submitted)">El correo es obligatorio.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="telefono" class="label">Número de teléfono</label>
+          <input id="telefono" name="telefono" type="tel" class="input-underline" placeholder="011 15-2345-6789"  
+          formControlName="telefono" />
+          <div class="error" *ngIf="data.get('telefono')?.hasError('required') && (data.get('telefono')?.touched || submitted)">El teléfono es obligatorio.</div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="nombre" class="label">Nombre y apellido</label>
+          <input id="nombre" name="nombre" type="text" class="input-underline" placeholder="Tu nombre completo"  
+          formControlName="nombre" />
+          <div class="error" *ngIf="data.get('nombre')?.hasError('required') && (data.get('nombre')?.touched || submitted)">El nombre es obligatorio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dirección -->
+    <div class="divider mt-2"><i class="bi bi-house"></i> Dirección</div>
+    <div class="row g-4" formGroupName="direccion">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="calle" class="label">Calle y número</label>
+          <input id="calle" name="calle" type="text" class="input-underline" placeholder="Av. Argentina 1234"  
+          formControlName="calle" />
+          <div class="error" *ngIf="data.get('direccion.calle')?.hasError('required') && (data.get('direccion.calle')?.touched || submitted)">La calle es obligatoria.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="piso" class="label">Piso y departamento</label>
+          <input id="piso" name="piso" type="text" class="input-underline" placeholder="Por ejemplo: 1B" 
+          formControlName="piso" />
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label for="notas" class="label">Comentarios</label>
+          <textarea id="notas" name="notas" class="input-underline" placeholder="Referencias, timbre, etc." 
+           formControlName="notas"
+           ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pago -->
+    <div class="divider mt-2"><i class="bi bi-wallet2"></i> Forma de pago</div>
+    <div class="row g-3 radio-list">
+      <label class="col-md-6 radio-item">
+        <input type="radio" name="formaPago" value="Efectivo" formControlName="formaPago" />
+        <span class="dot"></span>
+        <span>Efectivo</span>
+      </label>
+      <label class="col-md-6 radio-item">
+        <input type="radio" name="formaPago" value="Transferencia" formControlName="formaPago" />
+        <span class="dot"></span>
+        <span>Transferencia</span>
+      </label>
+    </div>
+    <div class="error" *ngIf="data.get('formaPago')?.hasError('required') && submitted">Seleccioná una forma de pago.</div>
+
+    <div class="row g-3" *ngIf="data.get('formaPago')?.value === 'Efectivo'">
+      <div class="col-md-6">
+        <div class="form-group mt-1">
+          <label for="monto" class="label">¿Con cuánto pagás?</label>
+          <input id="monto" name="monto" type="number" class="input-underline" placeholder="Ej. 1000" 
+          formControlName="montoEfectivo" />
+          <div class="error" *ngIf="data.get('montoEfectivo')?.hasError('required') && (data.get('montoEfectivo')?.touched || submitted)">Indicá con cuánto vas a pagar.</div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="cart.length > 0">
+      <div class="divider"><i class="bi bi-bag-check"></i> Resumen de tu pedido</div>
+  
+      <div class="summary-list">
+        <div class="summary-item" *ngFor="let item of cart">
+          <div class="item-info">
+            <span class="item-name">{{ item.nombre }}</span>
+            <small class="item-qty">× {{ item.cantidad }}</small>
+          </div>
+          <div class="item-price">
+            ${{ item.precio * item.cantidad }}
+          </div>
+        </div>
+      </div>
+  
+    <div class="summary-total">
+        <span>Total</span>
+        <strong>${{ total }}</strong>
+      </div>
+    </div>
+      
+    <button class="pay" type="submit">Confirmar pedido</button>
+    
+  </form>
+</div>
