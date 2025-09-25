@@ -1,3 +1,4 @@
+/* Formulario y contenedores */
 .form-wrapper {
   max-width: 720px;
   margin: 0 auto;
@@ -6,6 +7,8 @@
 
 h2 {
   margin: 0 0 16px;
+  display: flex;
+  justify-content: center;
 }
 
 form {
@@ -50,9 +53,155 @@ button[type="submit"] {
 button[disabled] { opacity: 0.6; cursor: not-allowed; }
 
 .preview { margin-top: 24px; }
+
+/* Ajustar la tarjeta de producto */
 .card { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: start; }
 .card img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; }
 .card .info { display: grid; gap: 4px; }
 .price { color: #16a34a; }
 .desc { color: #374151; margin: 0; }
 
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #333;
+  color: #fff;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 220px;
+  height: 100%;
+  background: #222;
+  color: white;
+  padding: 20px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  transition: background 0.2s;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+  background: #444;
+}
+
+/* Contenido principal */
+.main {
+  margin: 20px;
+  padding-top: 60px; /* espacio para el botón */
+}
+
+/* Media Queries para responsive */
+@media (max-width: 768px) {
+  /* Ajuste del formulario */
+  .form-wrapper {
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  form {
+    gap: 10px;
+  }
+
+  .field {
+    gap: 5px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* Ajuste de la tarjeta de producto */
+  .card {
+    grid-template-columns: 1fr; /* Una sola columna en móviles */
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Barra lateral */
+  .sidebar {
+    width: 200px; /* Reducir el tamaño del sidebar */
+  }
+
+  .menu-btn {
+    font-size: 20px; /* Reducir tamaño del botón */
+  }
+
+  .main {
+    margin: 10px;
+    padding-top: 80px; /* Ajustar el espacio */
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-btn {
+    font-size: 18px; /* Más pequeño en móviles pequeños */
+  }
+
+  .sidebar {
+    width: 180px;
+    padding: 16px; /* Reducir padding en el sidebar */
+  }
+
+  .sidebar ul li a {
+    font-size: 16px; /* Reducir tamaño de texto */
+  }
+
+  /* Formulario */
+  .form-wrapper {
+    padding: 8px;
+  }
+
+  button[type="submit"] {
+    padding: 10px;
+    font-size: 16px; /* Aumentar tamaño del botón */
+  }
+
+  .card {
+    grid-template-columns: 1fr; /* Hacer que las tarjetas se apilen */
+  }
+}

@@ -1,3 +1,23 @@
+<!-- Botón menú hamburguesa -->
+<button class="menu-btn" (click)="menuOpen = !menuOpen">☰</button>
+
+<!-- Sidebar deslizante -->
+<div class="sidebar" [class.open]="menuOpen">
+  <button class="close-btn" (click)="menuOpen = false">×</button>
+  <ul>
+    <li>
+      <a routerLink="/crear-hamburguesa"
+         routerLinkActive="active"
+         (click)="menuOpen=false">Crear Hamburguesa</a>
+    </li>
+    <li>
+      <a routerLink="/ver-pedidos"
+         routerLinkActive="active"
+         (click)="menuOpen=false">Ver Pedidos</a>
+    </li>
+  </ul>
+</div>
+
 <div class="form-wrapper">
   <h2>Agregar Hamburguesa</h2>
 
