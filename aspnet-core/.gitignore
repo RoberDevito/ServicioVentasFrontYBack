@@ -260,10 +260,7 @@ src/Servicios.HttpApi.Host/Logs/*
 src/Servicios.DbMigrator/Logs/*
 src/Servicios.Blazor.Server/Logs/*
 src/Servicios.Blazor.Server.Tiered/Logs/*
+src/Servicios.HttpApi.Host/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
-
-# Config DB
-src\Servicios.DbMigrator\appsettings.json
-src\Servicios.HttpApi.Host\appsettings.json

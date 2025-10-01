@@ -97,4 +97,7 @@ export class AdminComponent {
       cantidad: [1, [Validators.required, Validators.min(1)]]
     });
   }
+
+  menuOpen = false;
+
 }
