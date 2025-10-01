@@ -982,17 +982,39 @@
               "allowAnonymous": null,
               "implementFrom": "Servicios.Pedidos.PedidoAppService"
             },
-            "GetListAsync": {
-              "uniqueName": "GetListAsync",
-              "name": "GetListAsync",
+            "GetOneByIdAsyncById": {
+              "uniqueName": "GetOneByIdAsyncById",
+              "name": "GetOneByIdAsync",
               "httpMethod": "GET",
-              "url": "api/app/pedido",
+              "url": "api/app/pedido/{id}/one-by-id",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
-                "type": "System.Collections.Generic.List<Servicios.Pedidos.PedidoDto>",
-                "typeSimple": "[Servicios.Pedidos.PedidoDto]"
+                "type": "Servicios.Pedidos.PedidoDto",
+                "typeSimple": "Servicios.Pedidos.PedidoDto"
               },
               "allowAnonymous": null,
               "implementFrom": "Servicios.Pedidos.PedidoAppService"
@@ -4049,18 +4071,6 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Total",
-          "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

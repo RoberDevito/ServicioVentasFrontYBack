@@ -10,7 +10,8 @@ public class ServiciosApplicationAutoMapperProfile : Profile
     {
          // Entidad → DTO
             CreateMap<Pedido, PedidoDto>();
-            CreateMap<PedidoItems, PedidoItemDto>();
+            CreateMap<PedidoItems, PedidoItemDto>()
+                .ForMember(dest => dest.NombreHamburguesa, opt => opt.MapFrom(src => src.Hamburguesa != null ? src.Hamburguesa.Nombre : null));
 
             // DTO → Entidad
             CreateMap<CrearPedidoDto, Pedido>();
