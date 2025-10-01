@@ -29,7 +29,7 @@
       </div> -->
 
       <!-- MENÚ: Hamburguesas -->
-      <h3 class="categoriasTitle">Hamburguesas</h3>
+      <h3 *ngIf="hambur.length > 0" class="categoriasTitle">Hamburguesas</h3>
       <div class="menu-list">
         <div class="menu-item" *ngFor="let b of hambur">
           <img [src]="b.imagenUrl">
@@ -56,7 +56,7 @@
               <span>{{ b.cantidad }}</span>
               <button (click)="incrementar(b)">+</button>
             </div>
-            <button class="btn ghost">Personalizar</button>
+            <button class="btn ghost" (click)="openModal(b)">Personalizar</button>
             <button class="btn primary" (click)="agregarCarrito(b)">Pedir</button>
           </div>
         </div>
@@ -81,43 +81,50 @@
     <i class="bi bi-person" aria-label="Perfil"></i>
   </footer>
 
+
   <!-- MODAL Personalización -->
-  <!-- <div class="app-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+  <div class="app-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
   <div class="app-modal" *ngIf="showModal">
     <div class="modal-header">
-      <div class="m-title">{{ selected?.name }}</div>
+      <div class="m-title">{{ selected?.nombre }}</div>
       <button class="close" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
-      <img class="m-img" [src]="selected?.image" alt="{{ selected?.name }}">
-      
+      <img class="m-img" [src]="selected?.imagenUrl" alt="{{ selected?.nombre }}" />
       <div class="section">
         <div class="label">Quitar ingredientes</div>
-        <label class="chip" *ngFor="let ing of selected?.ingredients">
-          <input type="checkbox" [checked]="removed.has(ing)" (change)="toggleRemove(ing)" />
-          <span>Sin {{ ing }}</span>
-        </label>
+        <ng-container *ngFor="let ing of selected?.listIngredientes">
+          <label class="chip" *ngIf="ing.tipo === 0">
+            <input type="checkbox"
+                  [checked]="removed.has(ing.nombre)"
+                  (change)="toggleRemove(ing.nombre)" />
+            <span>Sin {{ ing.nombre }}</span>
+          </label>
+        </ng-container>
       </div>
-      
-      <div class="section">
-        <div class="label">Agregar extras</div>
-        <label class="chip" *ngFor="let ex of selected?.extras">
-          <input type="checkbox" [checked]="added.has(ex.key)" (change)="toggleAdd(ex.key)" />
-          <span>{{ ex.key }} (+${{ ex.price }})</span>
-        </label>
+      <div class="extras-list">
+        <ng-container *ngFor="let ex of selected?.listIngredientes">
+          <div class="extra-item" *ngIf="ex.tipo === 1">
+            <span class="extra-name">{{ ex.nombre }} (+${{ ex.precio }})</span>
+            <div class="qty">
+              <button (click)="decExtra(ex)">-</button>
+              <span>{{ ex.cantidad ?? 0 }}</span>
+              <button (click)="incExtra(ex)">+</button>
+            </div>
+          </div>
+        </ng-container>
       </div>
-      
-      <div class="qty">
-        <button (click)="decQty()">-</button>
-        <span>{{ quantity }}</span>
-        <button (click)="incQty()">+</button>
+      <div class="qty main-qty">
+        <button (click)="restarCant()">-</button>
+          <span>{{ quantity }}</span>
+        <button (click)="sumarCant()">+</button>
       </div>
     </div>
     <div class="modal-footer">
       <div class="m-price">${{ currentPrice() * quantity }}</div>
       <button class="confirm" (click)="addToCart()">Agregar al carrito</button>
     </div>
-  </div> -->
+  </div>
 
   <!-- MODAL Carrito -->
   <div class="app-modal-backdrop" *ngIf="showCart" (click)="cerrarCart()"></div>

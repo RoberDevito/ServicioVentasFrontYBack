@@ -27,6 +27,7 @@ namespace Servicios.Migrations
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("FechaCreacion")
@@ -59,6 +60,7 @@ namespace Servicios.Migrations
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int?>("Cantidad")
@@ -72,8 +74,11 @@ namespace Servicios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<double>("Precio")
+                    b.Property<double?>("Precio")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

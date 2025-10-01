@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class CambiosPedido : Migration
+    public partial class rr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -768,15 +768,16 @@ namespace Servicios.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Cantidad = table.Column<int>(type: "integer", nullable: false),
-                    HamburguesasId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Precio = table.Column<double>(type: "double precision", nullable: false),
+                    Cantidad = table.Column<int>(type: "integer", nullable: true),
+                    HamburguesaId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppIngredientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppIngredientes_AppHamburguesas_HamburguesasId",
-                        column: x => x.HamburguesasId,
+                        name: "FK_AppIngredientes_AppHamburguesas_HamburguesaId",
+                        column: x => x.HamburguesaId,
                         principalTable: "AppHamburguesas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -1106,9 +1107,9 @@ namespace Servicios.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppIngredientes_HamburguesasId",
+                name: "IX_AppIngredientes_HamburguesaId",
                 table: "AppIngredientes",
-                column: "HamburguesasId");
+                column: "HamburguesaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPedidoItems_HamburguesaId",
