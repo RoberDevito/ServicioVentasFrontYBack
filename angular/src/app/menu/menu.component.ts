@@ -29,6 +29,10 @@ export class MenuComponent implements OnInit {
   showModal = false;
   showCart = false;
   total = 0;
+  selected: any = null;
+  added: Set<string> = new Set();
+  quantity:number = 0;
+  removed: Set<string> = new Set();
 
   constructor(
     private router: Router,
@@ -63,6 +67,17 @@ export class MenuComponent implements OnInit {
 
     this.updateTotal();
     burger.cantidad = 0;
+  }
+
+   currentPrice(): number {
+    if (!this.selected) return 0;
+    let base = this.selected.precio || 0;
+    if (this.selected.extras) {
+      this.selected.extras.forEach((ex: any) => {
+        if (this.added.has(ex.key)) base += ex.price;
+      });
+    }
+    return base;
   }
 
 
@@ -106,8 +121,44 @@ export class MenuComponent implements OnInit {
     );
   }
 
-  openModal() {
+  openModal(burger:any) {
+    this.selected = burger;
     this.showModal = true;
+    this.quantity = 1;
+    this.removed.clear();
+    this.added.clear();
+  }
+
+  incExtra(ex:any){
+    if(ex.cantidad == null){
+      ex.cantidad = 0;
+    }
+    
+    ex.cantidad++
+
+  }
+
+  decExtra(ex:any){
+    if (ex.cantidad == null) {
+      ex.cantidad = 0;
+    }
+    if(ex.cantidad > 1){
+      ex.cantidad--;
+    }
+  }
+
+  get hasExtras(): boolean {
+    return this.selected?.listIngredientes?.some(i => i.tipo === 1) ?? false;
+  }  
+
+  sumarCant(){
+    this.quantity ++;
+  }
+
+  restarCant(){
+    if(this.quantity > 1){
+      this.quantity--;
+    }
   }
 
   closeModal() { 
@@ -141,7 +192,7 @@ export class MenuComponent implements OnInit {
   }
   
   goCheckout() {
-    this.Cart.setCarts(this.cart.cartItems); // 👈 ahora sí recibe un array
+    this.Cart.setCarts(this.cart.cartItems);
     this.router.navigate(['/checkout']);
   }
 

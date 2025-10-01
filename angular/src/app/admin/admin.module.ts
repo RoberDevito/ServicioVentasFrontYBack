@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AdminComponent } from './admin.component';
+
+
 
 @NgModule({
   declarations: [],
@@ -11,4 +12,5 @@ import { AdminComponent } from './admin.component';
     FormsModule  
   ]
 })
+
 export class AdminModule {}

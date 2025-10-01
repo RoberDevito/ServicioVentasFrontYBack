@@ -18,10 +18,10 @@ export class PedidoService {
     { apiName: this.apiName,...config });
   
 
-  getList = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, PedidoDto[]>({
+  getOneById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PedidoDto>({
       method: 'GET',
-      url: '/api/app/pedido',
+      url: `/api/app/pedido/${id}/one-by-id`,
     },
     { apiName: this.apiName,...config });
 

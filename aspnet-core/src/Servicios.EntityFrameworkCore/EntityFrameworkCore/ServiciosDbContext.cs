@@ -103,6 +103,9 @@ public class ServiciosDbContext :
             b.Property(x => x.FechaCreacion).IsRequired();
             b.Property(x => x.FechaModificacion);
 
+            b.Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+
             b.HasMany(x => x.ListaIngredientes)
             .WithOne(i => i.Hamburguesa)
             .HasForeignKey(i => i.HamburguesaId);
@@ -155,8 +158,10 @@ public class ServiciosDbContext :
         {
             a.ToTable(ServiciosConsts.DbTablePrefix + "Ingredientes", ServiciosConsts.DbSchema);
             a.ConfigureByConvention();
+            a.Property(y => y.Id).ValueGeneratedOnAdd();
             a.Property(y => y.Nombre).IsRequired().HasMaxLength(100);
             a.Property(y => y.Cantidad);
+
         });
         
     }

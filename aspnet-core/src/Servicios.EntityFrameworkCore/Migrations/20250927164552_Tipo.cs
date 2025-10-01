@@ -5,21 +5,22 @@
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class testeo2 : Migration
+    public partial class Tipo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<double>(
+            migrationBuilder.AlterColumn<double>(
                 name: "Precio",
                 table: "AppIngredientes",
                 type: "double precision",
-                nullable: false,
-                defaultValue: 0.0);
+                nullable: true,
+                oldClrType: typeof(double),
+                oldType: "double precision");
 
             migrationBuilder.AddColumn<int>(
-                name: "Seccion",
-                table: "AppHamburguesas",
+                name: "Tipo",
+                table: "AppIngredientes",
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
@@ -29,12 +30,18 @@ namespace Servicios.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Precio",
+                name: "Tipo",
                 table: "AppIngredientes");
 
-            migrationBuilder.DropColumn(
-                name: "Seccion",
-                table: "AppHamburguesas");
+            migrationBuilder.AlterColumn<double>(
+                name: "Precio",
+                table: "AppIngredientes",
+                type: "double precision",
+                nullable: false,
+                defaultValue: 0.0,
+                oldClrType: typeof(double),
+                oldType: "double precision",
+                oldNullable: true);
         }
     }
 }
