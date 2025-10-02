@@ -9,7 +9,6 @@ export interface CrearPedidoDto {
   piso?: string;
   comentario?: string;
   formaPago?: string;
-  total: number;
   items: CrearPedidoItemDto[];
 }
 

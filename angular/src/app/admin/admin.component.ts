@@ -17,6 +17,8 @@ import { BaseCoreModule } from "@abp/ng.core";
 })
 export class AdminComponent {
 
+  menuOpen = false;
+
   constructor(
     private fb: FormBuilder,
     private hamburguesa: HamburguesasService,
@@ -45,10 +47,14 @@ export class AdminComponent {
 
   removeIngrediente(index: number): void {
     if (this.ingredientes.length === 1) {
-      this.ingredientes.at(0).reset({ nombre: '', cantidad: 1 });
+      this.ingredientes.at(0).reset({
+        nombre: '',
+        cantidad: 1,
+        precio: 0,
+        tipo: 'Fijo'
+      });
       return;
     }
-
     this.ingredientes.removeAt(index);
   }
 
@@ -59,8 +65,8 @@ export class AdminComponent {
     });
   }
 
-  get ingredientesPreview(): Array<{ nombre?: string; cantidad?: number }> {
-    return this.ingredientes.controls.map(control => control.value as { nombre?: string; cantidad?: number });
+  get ingredientesPreview(): Array<{ nombre?: string; cantidad?: number; precio?: number; tipo?: string }> {
+    return this.ingredientes.controls.map(control => control.value as { nombre?: string; cantidad?: number; precio?: number; tipo?: string });
   }
 
   onSubmit(): void {
@@ -75,10 +81,12 @@ export class AdminComponent {
     }
 
     const ingredientes = (formValue.listIngredientes ?? [])
-      .filter((ingrediente: any) => ingrediente?.nombre && ingrediente?.cantidad !== null && ingrediente?.cantidad !== undefined)
+      .filter((ingrediente: any) => ingrediente?.nombre)
       .map((ingrediente: any) => ({
         nombre: ingrediente.nombre,
-        cantidad: Number(ingrediente.cantidad)
+        cantidad: ingrediente.tipo === 'Cantidad' ? Number(ingrediente.cantidad) : null,
+        precio: Number(ingrediente.precio) || 0,
+        tipo: ingrediente.tipo
       }));
 
     const hamburDTO: HamburguesasDTO = {
@@ -95,17 +103,16 @@ export class AdminComponent {
     });
   }
 
-  private createIngredienteGroup(): FormGroup {
+  createIngredienteGroup(): FormGroup {
     return this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
-      cantidad: [1, [Validators.required, Validators.min(1)]]
+      cantidad: [1, [Validators.min(1)]],
+      precio: [0, [Validators.min(0)]],
+      tipo: ['Fijo', Validators.required] // "Fijo" o "Cantidad"
     });
   }
-
-  menuOpen = false;
 
   verPedidos() {
     this.router.navigate(['/verPedidos'])
   }
-
 }

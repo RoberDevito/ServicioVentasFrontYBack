@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    [Migration("20250921225518_CambiosPedido")]
-    partial class CambiosPedido
+    [Migration("20250927172859_id2")]
+    partial class id2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,7 @@ namespace Servicios.Migrations
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("FechaCreacion")
@@ -59,15 +60,16 @@ namespace Servicios.Migrations
                     b.ToTable("AppHamburguesas", (string)null);
                 });
 
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Cantidad")
+                    b.Property<int?>("Cantidad")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("HamburguesasId")
+                    b.Property<Guid>("HamburguesaId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Nombre")
@@ -75,9 +77,15 @@ namespace Servicios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<double?>("Precio")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("HamburguesasId");
+                    b.HasIndex("HamburguesaId");
 
                     b.ToTable("AppIngredientes", (string)null);
                 });
@@ -1933,13 +1941,15 @@ namespace Servicios.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrendientes", b =>
+            modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
                 {
-                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", null)
+                    b.HasOne("Servicios.Domain.Hamburguesa.Hamburguesas", "Hamburguesa")
                         .WithMany("ListaIngredientes")
-                        .HasForeignKey("HamburguesasId")
+                        .HasForeignKey("HamburguesaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Hamburguesa");
                 });
 
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.PedidoItems", b =>

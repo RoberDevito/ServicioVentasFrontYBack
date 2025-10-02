@@ -21,4 +21,5 @@ const routes: Routes = [
     FormsModule  
   ]
 })
+
 export class AdminModule {}

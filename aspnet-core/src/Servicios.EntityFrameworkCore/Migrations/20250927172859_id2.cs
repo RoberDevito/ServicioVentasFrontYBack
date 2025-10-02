@@ -5,7 +5,7 @@
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class nuevamigracion : Migration
+    public partial class id2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
