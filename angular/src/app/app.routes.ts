@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
+import { VerPedidosComponent } from './ver-pedidos/ver-pedidos.component';
 
 export const appRoutes: Routes = [
   {
@@ -10,6 +11,10 @@ export const appRoutes: Routes = [
   {
     path: 'administrador',
     component: AdminComponent
+  },
+  {
+    path: 'verPedidos',
+    loadComponent: () => import('./ver-pedidos/ver-pedidos.component').then(m => m.VerPedidosComponent)
   },
   {
     path:'checkout',

@@ -4,11 +4,14 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HamburguesasDTO } from '@proxy/domain/hamburguesa';
 import { HamburguesasService } from '@proxy/application/hamburguesa';
+import { Router } from '@angular/router';
+import { BaseCoreModule } from "@abp/ng.core";
+
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, BaseCoreModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
@@ -16,7 +19,8 @@ export class AdminComponent {
 
   constructor(
     private fb: FormBuilder,
-    private hamburguesa: HamburguesasService
+    private hamburguesa: HamburguesasService,
+    private router: Router
   ) {}
 
   form = this.fb.group({
@@ -99,5 +103,9 @@ export class AdminComponent {
   }
 
   menuOpen = false;
+
+  verPedidos() {
+    this.router.navigate(['/verPedidos'])
+  }
 
 }
