@@ -8,6 +8,7 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Application.Services;
 using Servicios.Domain.Hamburguesa;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
 
 namespace Servicios.Application.Hamburguesa
 {
@@ -35,10 +36,12 @@ namespace Servicios.Application.Hamburguesa
                 Precio = input.Precio,
                 ImagenUrl = input.ImagenUrl,
                 ListaIngredientes = input.ListIngredientes
-                            .Select(dto => new Ingrediente 
+                .Select(dto => new Ingrediente
                 {
                     Nombre = dto.Nombre,
                     Cantidad = dto.Cantidad,
+                    Precio = dto.Precio,
+                    Tipo = dto.Tipo
                 })
                 .ToList(),
                 FechaCreacion = DateTime.UtcNow
@@ -63,6 +66,8 @@ namespace Servicios.Application.Hamburguesa
                     {
                         Nombre = dto.Nombre,
                         Cantidad = dto.Cantidad,
+                        Precio = dto.Precio,
+                        Tipo = dto.Tipo
 
                     }).ToList(),
                 FechaCreacion = x.FechaCreacion,

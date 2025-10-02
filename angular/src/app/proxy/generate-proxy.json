@@ -3968,6 +3968,30 @@
           "minimum": null,
           "maximum": null,
           "regex": null
+        },
+        {
+          "name": "Precio",
+          "jsonName": null,
+          "type": "System.Double?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Tipo",
+          "jsonName": null,
+          "type": "Servicios.Domain.Hamburguesa.TipoIngrediente",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
         }
       ]
     },
@@ -3983,6 +4007,20 @@
         0,
         1,
         2
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Servicios.Domain.Hamburguesa.TipoIngrediente": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Fijo",
+        "Cantidad"
+      ],
+      "enumValues": [
+        0,
+        1
       ],
       "genericArguments": null,
       "properties": null
