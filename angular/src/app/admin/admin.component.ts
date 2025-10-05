@@ -106,9 +106,9 @@ export class AdminComponent {
   createIngredienteGroup(): FormGroup {
     return this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
-      cantidad: [1, [Validators.min(1)]],
+      cantidad: [0, [Validators.min(0)]],
       precio: [0, [Validators.min(0)]],
-      tipo: ['Fijo', Validators.required] // "Fijo" o "Cantidad"
+      tipo: ['Fijo', Validators.required] 
     });
   }
 
