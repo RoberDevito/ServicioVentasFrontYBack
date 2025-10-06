@@ -51,17 +51,22 @@ export class MenuComponent implements OnInit {
   }
 
   agregarCarrito(burger: any) {
+    if (!burger) return;
+
     const index = this.cart.cartItems.findIndex(i => i.id === burger.id);
 
     if (index > -1) {
-      this.cart.cartItems[index].cantidad += burger.cantidad;
+      this.cart.cartItems[index].cantidad += burger.cantidad || 1;
     } else {
       this.cart.cartItems.push({
         id: burger.id,
         nombre: burger.nombre,
         precio: burger.precio,
-        cantidad: burger.cantidad,
-        options: {}
+        cantidad: burger.cantidad || 1,
+        options: {
+          removed: [],
+          added: []
+        }
       });
     }
 
@@ -69,15 +74,19 @@ export class MenuComponent implements OnInit {
     burger.cantidad = 0;
   }
 
-   currentPrice(): number {
+  currentPrice(): number {
     if (!this.selected) return 0;
     let base = this.selected.precio || 0;
-    if (this.selected.extras) {
-      this.selected.extras.forEach((ex: any) => {
-        if (this.added.has(ex.key)) base += ex.price;
+
+    if (this.selected.listIngredientes) {
+      this.selected.listIngredientes.forEach((ing: any) => {
+        if (ing.tipo === 1 && ing.cantidad && ing.precio) {
+          base += ing.cantidad * ing.precio;
+        }
       });
     }
-    return base;
+
+    return base * this.quantity;
   }
 
 
@@ -165,9 +174,61 @@ export class MenuComponent implements OnInit {
     this.showModal = false; 
   }
 
-  addToCart() {
-    this.closeModal();
+ addToCart() {
+  if (!this.selected) return;
+
+  const basePrice = this.selected.precio || 0;
+
+  // 🔹 Calcular extras y removidos
+  const removed: string[] = [];
+  const added: string[] = [];
+  let extraPrice = 0;
+
+  this.selected.listIngredientes?.forEach((ing: any) => {
+    if (ing.tipo === 0 && this.removed.has(ing.nombre)) {
+      removed.push(ing.nombre);
+    }
+
+    if (ing.tipo === 1 && ing.cantidad && ing.cantidad > 0) {
+      added.push(`${ing.cantidad}x ${ing.nombre}`);
+      extraPrice += ing.cantidad * (ing.precio || 0);
+    }
+  });
+
+  const finalPrice = basePrice + extraPrice;
+
+  // 🔹 Crear el ítem del carrito con personalización
+  const newItem: CartItem = {
+    id: this.selected.id,
+    nombre: this.selected.nombre,
+    precio: finalPrice,
+    cantidad: this.quantity,
+    options: { removed, added }
+  };
+
+  // 🔹 Si ya existe en el carrito, lo combinamos
+  const index = this.cart.cartItems.findIndex(
+    i => i.id === this.selected.id &&
+    JSON.stringify(i.options) === JSON.stringify(newItem.options)
+  );
+
+  if (index > -1) {
+    this.cart.cartItems[index].cantidad += this.quantity;
+  } else {
+    this.cart.cartItems.push(newItem);
   }
+
+  // 🔹 Actualizar total
+  this.updateTotal();
+
+  // 🔹 Resetear modal
+  this.closeModal();
+  this.selected.listIngredientes?.forEach((ing: any) => (ing.cantidad = 0));
+  this.quantity = 1;
+  this.removed.clear();
+  this.added.clear();
+}
+
 
   pedir() { 
     this.openCart(); 

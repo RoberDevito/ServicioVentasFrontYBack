@@ -121,7 +121,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <div class="m-price">${{ currentPrice() * quantity }}</div>
+      <div class="m-price">${{ currentPrice() }}</div>
       <button class="confirm" (click)="addToCart()">Agregar al carrito</button>
     </div>
   </div>
@@ -140,7 +140,7 @@
             <div class="name">{{ it.nombre }}</div>
             <div class="opts" *ngIf="it.options && (it.options.removed?.length || it.options.added?.length)">
               <span *ngIf="it.options.removed?.length">Sin {{ it.options.removed.join(', ') }}</span>
-              <span *ngIf="it.options.added?.length"> | Extra {{ it.options.added.join(', ') }}</span>
+              <span *ngIf="it.options.added?.length">Extra {{ it.options.added.join(', ') }}</span>
             </div>
           </div>
           <div class="cart-qty">
