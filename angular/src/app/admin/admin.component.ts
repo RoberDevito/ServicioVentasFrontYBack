@@ -49,7 +49,7 @@ export class AdminComponent {
     if (this.ingredientes.length === 1) {
       this.ingredientes.at(0).reset({
         nombre: '',
-        cantidad: 1,
+        cantidad: 0,
         precio: 0,
         tipo: 'Fijo'
       });
@@ -100,6 +100,17 @@ export class AdminComponent {
       next: () => {
         console.log({ ...hamburDTO, descripcion: formValue.descripcion });
       }
+    });
+  }
+
+  onImageError(): void {
+    const imageControl = this.form.get('imagenUrl');
+    if (!imageControl?.value) {
+      return;
+    }
+
+    void Promise.resolve().then(() => {
+      imageControl.reset('', { emitEvent: true });
     });
   }
 

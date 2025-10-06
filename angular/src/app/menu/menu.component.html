@@ -92,7 +92,7 @@
     <div class="modal-body">
       <img class="m-img" [src]="selected?.imagenUrl" alt="{{ selected?.nombre }}" />
       <div class="section">
-        <div class="label">Quitar ingredientes</div>
+        <div class="label" *ngIf="quitar">Quitar ingredientes</div>
         <ng-container *ngFor="let ing of selected?.listIngredientes">
           <label class="chip" *ngIf="ing.tipo === 0">
             <input type="checkbox"
@@ -103,6 +103,7 @@
         </ng-container>
       </div>
       <div class="extras-list">
+        <div class="label" *ngIf="agregar">Agregar ingredientes</div>
         <ng-container *ngFor="let ex of selected?.listIngredientes">
           <div class="extra-item" *ngIf="ex.tipo === 1">
             <span class="extra-name">{{ ex.nombre }} (+${{ ex.precio }})</span>
@@ -138,9 +139,19 @@
         <div class="cart-row" *ngFor="let it of cart.cartItems; let i = index">
           <div class="cart-info">
             <div class="name">{{ it.nombre }}</div>
-            <div class="opts" *ngIf="it.options && (it.options.removed?.length || it.options.added?.length)">
-              <span *ngIf="it.options.removed?.length">Sin {{ it.options.removed.join(', ') }}</span>
-              <span *ngIf="it.options.added?.length">Extra {{ it.options.added.join(', ') }}</span>
+            <div class="opts" *ngIf="it.options">
+              <span *ngIf="it.options.base?.length">
+                {{ it.options.base.join(', ') }}
+              </span>
+
+              <ng-container *ngIf="it.options.added?.length || it.options.removed?.length">
+                <span *ngIf="it.options.added?.length">
+                  , extra {{ it.options.added.join(', ') }}
+                </span>
+                <span *ngIf="it.options.removed?.length">
+                  , sin {{ it.options.removed.join(', ') }}
+                </span>
+              </ng-container>
             </div>
           </div>
           <div class="cart-qty">
@@ -149,21 +160,24 @@
             <button (click)="incCart(i)">+</button>
           </div>
           <div class="cart-price">${{ it.precio * it.cantidad }}</div>
-          <button class="cart-remove" (click)="removeCart(i)"><i class="bi bi-x"></i></button>
+          <button class="cart-remove" (click)="removeCart(i)">
+            <i class="bi bi-x"></i>
+          </button>
         </div>
       </div>
+
       <ng-template #emptyCart>
         <p>Tu carrito está vacío.</p>
       </ng-template>
     </div>
+
     <div class="modal-footer">
       <div class="m-price">Total: ${{ total }}</div>
-      <button class="confirm"
-       (click)="goCheckout()"
-       [disabled]="cart.cartItems.length === 0">
+      <button class="confirm" (click)="goCheckout()" [disabled]="cart.cartItems.length === 0">
         Continuar
       </button>
     </div>
   </div>
+
   
 </div>

@@ -81,7 +81,7 @@
         </div>
         <div class="error" *ngIf="ingrediente.get('cantidad')?.touched && ingrediente.get('cantidad')?.invalid && ingrediente.get('tipo')?.value === 'Cantidad'">
           <span *ngIf="ingrediente.get('cantidad')?.errors?.['required']">La cantidad es obligatoria.</span>
-          <span *ngIf="ingrediente.get('cantidad')?.errors?.['min']">Debe ser 1 o más.</span>
+          <!-- <span *ngIf="ingrediente.get('cantidad')?.errors?.['min']">Debe ser 1 o más.</span> -->
         </div>
         <div class="error" *ngIf="ingrediente.get('precio')?.touched && ingrediente.get('precio')?.invalid">
           <span *ngIf="ingrediente.get('precio')?.errors?.['min']">El precio no puede ser negativo.</span>
@@ -101,7 +101,7 @@
   <div class="preview" *ngIf="form.value.nombre || form.value.precio || form.value.imagenUrl || hasIngredientes()">
     <h3>Vista previa</h3>
     <div class="card">
-      <img *ngIf="form.value.imagenUrl" [src]="form.value.imagenUrl!" alt="preview" (error)="form.patchValue({ imagenUrl: '' })">
+      <img *ngIf="form.value.imagenUrl" [src]="form.value.imagenUrl!" alt="preview" (error)="onImageError()">
       <div class="info">
         <strong>{{ form.value.nombre || 'Sin nombre' }}</strong>
         <span class="price" *ngIf="form.value.precio">{{ form.value.precio | currency:'ARS' }}</span>
