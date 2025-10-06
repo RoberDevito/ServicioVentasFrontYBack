@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class rr : Migration
+    public partial class arreglosss : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -768,8 +768,9 @@ namespace Servicios.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Precio = table.Column<double>(type: "double precision", nullable: false),
+                    Precio = table.Column<double>(type: "double precision", nullable: true),
                     Cantidad = table.Column<int>(type: "integer", nullable: true),
+                    Tipo = table.Column<int>(type: "integer", nullable: false),
                     HamburguesaId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
