@@ -51,7 +51,6 @@ export class MenuComponent implements OnInit {
     if (!burger) return;
 
     const index = this.cart.cartItems.findIndex(i => i.id === burger.id);
-
     const baseIngredientes = burger.listIngredientes?.map((i: any) => i.nombre) || [];
 
     if (index > -1) {
@@ -61,8 +60,12 @@ export class MenuComponent implements OnInit {
         id: burger.id,
         nombre: burger.nombre,
         precio: burger.precio,
-        cantidad: burger.cantidad,
-        options: {}
+        cantidad: burger.cantidad || 1,
+        options: {
+          base: baseIngredientes,
+          removed: [],
+          added: []
+        }
       });
     }
 
@@ -126,17 +129,10 @@ export class MenuComponent implements OnInit {
     this.removed.clear();
     this.added.clear();
 
+    // Guardar cantidad base de cada extra
     this.selected.listIngredientes?.forEach((ing: any) => {
       ing.baseCantidad = ing.cantidad ?? 0;
     });
-  }
-
-  toggleRemove(nombre:string){
-    if(this.removed.has(nombre)){
-      this.removed.delete(nombre)
-    }else{
-      this.removed.add(nombre)
-    }
   }
 
   incExtra(ex: any) {
@@ -147,8 +143,12 @@ export class MenuComponent implements OnInit {
     if (ex.cantidad && ex.cantidad > 0) ex.cantidad--;
   }
 
-  get hasExtras(): boolean {
-    return this.selected?.listIngredientes?.some(i => i.tipo === 1) ?? false;
+  toggleRemove(nombre: string) {
+    if (this.removed.has(nombre)) {
+      this.removed.delete(nombre);
+    } else {
+      this.removed.add(nombre);
+    }
   }
 
   sumarCant() {
@@ -164,31 +164,72 @@ export class MenuComponent implements OnInit {
   }
 
   addToCart() {
+    if (!this.selected) return;
+
+    // Base solo con los ingredientes que no fueron quitados
+    const baseIngredientes = this.selected.listIngredientes
+      ?.filter((i: any) => !(i.tipo === 0 && this.removed.has(i.nombre)))
+      .map((i: any) => i.nombre) || [];
+
+    const removed: string[] = [];
+    const added: string[] = [];
+    let extraPrice = 0;
+
+    this.selected.listIngredientes?.forEach((ing: any) => {
+      if (ing.tipo === 0 && this.removed.has(ing.nombre)) {
+        removed.push(ing.nombre);
+      }
+
+      if (ing.tipo === 1 && ing.cantidad && ing.cantidad > (ing.baseCantidad ?? 0)) {
+        const diff = ing.cantidad - (ing.baseCantidad ?? 0);
+        added.push(`${diff}x ${ing.nombre}`);
+        extraPrice += diff * (ing.precio || 0);
+      }
+    });
+
+    const basePrice = this.selected.precio || 0;
+    const finalPrice = basePrice + extraPrice;
+
+    const newItem: CartItem = {
+      id: this.selected.id,
+      nombre: this.selected.nombre,
+      precio: finalPrice,
+      cantidad: this.quantity,
+      options: { base: baseIngredientes, removed, added }
+    };
+
+    const index = this.cart.cartItems.findIndex(
+      i => i.id === this.selected.id &&
+      JSON.stringify(i.options) === JSON.stringify(newItem.options)
+    );
+
+    if (index > -1) {
+      this.cart.cartItems[index].cantidad += this.quantity;
+    } else {
+      this.cart.cartItems.push(newItem);
+    }
+
+    this.updateTotal();
     this.closeModal();
+
+    // Reset
+    this.selected.listIngredientes?.forEach((ing: any) => (ing.cantidad = ing.baseCantidad ?? 0));
+    this.quantity = 1;
+    this.removed.clear();
+    this.added.clear();
   }
 
-  pedir() { 
-    this.openCart(); 
+  get quitar() {
+    return this.selected?.listIngredientes?.some(i => i.tipo === 0);
   }
 
-  openCart() 
-  { 
-    this.showCart = true; 
+  get agregar() {
+    return this.selected?.listIngredientes?.some(i => i.tipo === 1);
   }
 
-  cerrarCart() { 
-    this.showCart = false; 
-  }
+  openCart() { this.showCart = true; }
+  cerrarCart() { this.showCart = false; }
 
-  irCheck() { 
-    this.cerrarCart();
-    this.router.navigate(['/checkout']); 
-  }
-
-  get isCheckout() { 
-    return this.router.url.startsWith('/checkout'); 
-  }
-  
   goCheckout() {
     this.Cart.setCarts(this.cart.cartItems);
     this.router.navigate(['/checkout']);
