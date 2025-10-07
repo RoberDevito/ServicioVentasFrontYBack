@@ -3,7 +3,7 @@ import type { TipoIngrediente } from './tipo-ingrediente.enum';
 
 export interface HamburguesasDTO {
   nombre?: string;
-  precio: number;
+  precio?: number;
   imagenUrl?: string;
   listIngredientes: IngredientesDTO[];
   fechaCreacion?: string;
@@ -12,7 +12,7 @@ export interface HamburguesasDTO {
 
 export interface HamburguesasDTOGet extends EntityDto<string> {
   nombre?: string;
-  precio: number;
+  precio?: number;
   imagenUrl?: string;
   listIngredientes: IngredientesDTO[];
   fechaCreacion?: string;

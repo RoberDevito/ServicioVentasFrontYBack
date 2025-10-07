@@ -3798,8 +3798,8 @@
         {
           "name": "Precio",
           "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -3879,8 +3879,8 @@
         {
           "name": "Precio",
           "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -3960,7 +3960,7 @@
         {
           "name": "Precio",
           "jsonName": null,
-          "type": "System.Double?",
+          "type": "System.Decimal?",
           "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
