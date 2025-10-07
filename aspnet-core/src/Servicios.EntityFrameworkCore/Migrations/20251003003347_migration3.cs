@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class migracion : Migration
+    public partial class migration3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -769,6 +769,8 @@ namespace Servicios.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Cantidad = table.Column<int>(type: "integer", nullable: true),
+                    Precio = table.Column<decimal>(type: "numeric", nullable: true),
+                    Tipo = table.Column<int>(type: "integer", nullable: false),
                     HamburguesaId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

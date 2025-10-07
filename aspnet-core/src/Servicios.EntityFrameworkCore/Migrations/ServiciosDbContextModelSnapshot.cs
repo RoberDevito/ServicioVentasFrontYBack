@@ -74,8 +74,8 @@ namespace Servicios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<double?>("Precio")
-                        .HasColumnType("double precision");
+                    b.Property<decimal?>("Precio")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("integer");

@@ -3798,8 +3798,8 @@
         {
           "name": "Precio",
           "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -3879,8 +3879,8 @@
         {
           "name": "Precio",
           "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -3958,9 +3958,9 @@
           "regex": null
         },
         {
-          "name": "Cantidad",
+          "name": "Precio",
           "jsonName": null,
-          "type": "System.Int32?",
+          "type": "System.Decimal?",
           "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
@@ -3970,9 +3970,9 @@
           "regex": null
         },
         {
-          "name": "Precio",
+          "name": "Cantidad",
           "jsonName": null,
-          "type": "System.Double?",
+          "type": "System.Int32?",
           "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,

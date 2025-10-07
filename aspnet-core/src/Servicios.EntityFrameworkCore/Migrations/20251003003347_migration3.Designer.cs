@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    [Migration("20250927164552_Tipo")]
-    partial class Tipo
+    [Migration("20251003003347_migration3")]
+    partial class migration3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,7 @@ namespace Servicios.Migrations
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Hamburguesas", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("FechaCreacion")
@@ -62,6 +63,7 @@ namespace Servicios.Migrations
             modelBuilder.Entity("Servicios.Domain.Hamburguesa.Ingrediente", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int?>("Cantidad")
@@ -75,8 +77,8 @@ namespace Servicios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<double?>("Precio")
-                        .HasColumnType("double precision");
+                    b.Property<decimal?>("Precio")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("integer");
