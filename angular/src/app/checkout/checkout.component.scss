@@ -74,26 +74,26 @@ textarea.input-underline { resize: vertical; }
       font-size: 0.85rem;
       color: #777;
     }
-  }
 
-  /* 👇 Nueva sección para mostrar las opciones */
-  .item-options {
-    flex: 1 1 100%;
-    margin-left: 0.5rem;
-    margin-top: 0.4rem;
-    font-size: 0.85rem;
-    color: #555;
+    .item-base, .item-removed, .item-added {
+      margin-top: 4px;
 
-    .option {
-      display: block;
-      line-height: 1.3;
+      .option {
+        display: block;
+        line-height: 1.3;
+        font-size: 0.85rem;
+      }
     }
 
-    .removed {
+    .item-base .option {
+      color: #555;
+    }
+
+    .item-removed .option {
       color: #c0392b; /* rojo suave */
     }
 
-    .added {
+    .item-added .option {
       color: #27ae60; /* verde suave */
     }
   }
