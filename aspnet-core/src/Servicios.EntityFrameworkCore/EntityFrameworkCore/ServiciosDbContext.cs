@@ -98,6 +98,7 @@ public class ServiciosDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.Nombre).IsRequired().HasMaxLength(128);
             b.Property(x => x.Precio).IsRequired().HasColumnType("decimal(18,2)");
+            b.Property(x => x.Descripcion).IsRequired();
             b.Property(x => x.ImagenUrl).HasMaxLength(256);
             b.HasMany(x => x.ListaIngredientes).WithOne().IsRequired();
             b.Property(x => x.FechaCreacion).IsRequired();
