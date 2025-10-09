@@ -90,23 +90,17 @@
       <div class="divider"><i class="bi bi-bag-check"></i> Resumen de tu pedido</div>
   
       <div class="summary-list">
-  <div class="summary-item" *ngFor="let item of cart">
-    <div class="item-info">
-      <span class="item-name">{{ item.nombre }}</span>
-      <small class="item-qty">× {{ item.cantidad }}</small>
-    </div>
-
-    <!-- Detalles de ingredientes -->
-    <div class="item-options" *ngIf="item.options">
-      <div *ngIf="item.options.removed?.length">
-        <div *ngFor="let ing of item.options.removed" class="option removed">
-          Sin {{ ing }}
-        </div>
-      </div>
-
-      <div *ngIf="item.options.added?.length">
-        <div *ngFor="let ing of item.options.added" class="option added">
-          + {{ ing }}
+        <div class="summary-item" *ngFor="let item of cart">
+          <div class="item-info">
+            <span class="item-name">{{ item.nombre }}</span>
+            <small class="item-qty">Cantidad: {{ item.cantidad }}</small>
+            <small *ngIf="item.options?.base"> {{ item.options?.base.join(', ') }} </small>
+            <small *ngIf="item.options?.added"> {{ item.options?.added.join(', ') }} </small>
+            <small *ngIf="item.options?.removed"> {{ item.options?.removed.join(', ') }} </small>
+          </div>
+          <div class="item-price">
+            ${{ item.precio * item.cantidad }}
+          </div>
         </div>
       </div>
     </div>

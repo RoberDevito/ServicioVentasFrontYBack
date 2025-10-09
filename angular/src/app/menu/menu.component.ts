@@ -51,7 +51,8 @@ export class MenuComponent implements OnInit {
     if (!burger) return;
 
     const index = this.cart.cartItems.findIndex(i => i.id === burger.id);
-    const baseIngredientes = burger.listIngredientes?.map((i: any) => i.nombre) || [];
+    const baseIngredientes = burger.listIngredientes?.
+    map((i: any) => i.nombre) || [];
 
     if (index > -1) {
       this.cart.cartItems[index].cantidad += burger.cantidad || 1;
@@ -79,8 +80,8 @@ export class MenuComponent implements OnInit {
 
     if (this.selected.listIngredientes) {
       this.selected.listIngredientes.forEach((ing: any) => {
-        if (ing.tipo === 1 && ing.cantidad && ing.precio) {
-          base += ing.cantidad * ing.precio;
+        if (ing.tipo === 1 && (ing.cantidad > ing.baseCantidad) && ing.precio) {
+          base +=  (ing.cantidad - ing.baseCantidad) * (ing.precio || 0);
         }
       });
     }
@@ -129,9 +130,16 @@ export class MenuComponent implements OnInit {
     this.removed.clear();
     this.added.clear();
 
-    // Guardar cantidad base de cada extra
     this.selected.listIngredientes?.forEach((ing: any) => {
-      ing.baseCantidad = ing.cantidad ?? 0;
+      if (ing.tipo === 0 && (ing.cantidad == null)) {
+        ing.cantidad = 1;
+      }
+
+      if (ing.tipo === 1 && (ing.cantidad == null)) {
+        ing.cantidad = 0;
+      }
+
+      ing.baseCantidad = ing.cantidad;
     });
   }
 
@@ -166,25 +174,30 @@ export class MenuComponent implements OnInit {
   addToCart() {
     if (!this.selected) return;
 
-    // Base solo con los ingredientes que no fueron quitados
-    const baseIngredientes = this.selected.listIngredientes
-      ?.filter((i: any) => !(i.tipo === 0 && this.removed.has(i.nombre)))
-      .map((i: any) => i.nombre) || [];
-
+    const baseIngredientes: string[] = [];
     const removed: string[] = [];
     const added: string[] = [];
     let extraPrice = 0;
 
     this.selected.listIngredientes?.forEach((ing: any) => {
-      if (ing.tipo === 0 && this.removed.has(ing.nombre)) {
+
+      const base = ing.baseCantidad ?? 0;
+      const cantidadActual = ing.cantidad ?? 0;
+
+      if (base > 0 && !this.removed.has(ing.nombre)) {
+        baseIngredientes.push(ing.nombre); 
+      }
+
+      if (base > 0 && this.removed.has(ing.nombre)) {
         removed.push(ing.nombre);
       }
 
-      if (ing.tipo === 1 && ing.cantidad && ing.cantidad > (ing.baseCantidad ?? 0)) {
-        const diff = ing.cantidad - (ing.baseCantidad ?? 0);
+      if (cantidadActual > base) {
+        const diff = cantidadActual - base;
         added.push(`${diff}x ${ing.nombre}`);
         extraPrice += diff * (ing.precio || 0);
       }
+      
     });
 
     const basePrice = this.selected.precio || 0;
@@ -198,8 +211,8 @@ export class MenuComponent implements OnInit {
       options: { base: baseIngredientes, removed, added }
     };
 
-    const index = this.cart.cartItems.findIndex(
-      i => i.id === this.selected.id &&
+    const index = this.cart.cartItems.findIndex(i => 
+      i.id === this.selected.id &&
       JSON.stringify(i.options) === JSON.stringify(newItem.options)
     );
 
@@ -212,7 +225,7 @@ export class MenuComponent implements OnInit {
     this.updateTotal();
     this.closeModal();
 
-    // Reset
+    // Reset cantidades
     this.selected.listIngredientes?.forEach((ing: any) => (ing.cantidad = ing.baseCantidad ?? 0));
     this.quantity = 1;
     this.removed.clear();
