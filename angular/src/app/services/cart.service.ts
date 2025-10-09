@@ -6,6 +6,7 @@ export interface CartItem {
   precio: number;
   cantidad: number;
   options?: {
+    base?: string[],
     removed?: string[];
     added?: string[];
   };

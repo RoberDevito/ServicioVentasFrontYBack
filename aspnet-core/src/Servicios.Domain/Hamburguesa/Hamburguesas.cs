@@ -11,6 +11,7 @@ namespace Servicios.Domain.Hamburguesa
     {
         public string Nombre { get; set; }
         public decimal? Precio { get; set; }
+        public string Descripcion { get; set; }
         public string ImagenUrl { get; set; }
         public List<Ingrediente> ListaIngredientes { get; set; }
         public int Seccion { get; set; } = 0!;

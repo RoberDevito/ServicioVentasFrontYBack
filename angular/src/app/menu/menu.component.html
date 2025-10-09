@@ -140,17 +140,18 @@
           <div class="cart-info">
             <div class="name">{{ it.nombre }}</div>
             <div class="opts" *ngIf="it.options">
-              <span *ngIf="it.options.base?.length">
+              <ng-container *ngIf="it.options.base?.length">
                 {{ it.options.base.join(', ') }}
-              </span>
+              </ng-container>
 
-              <ng-container *ngIf="it.options.added?.length || it.options.removed?.length">
-                <span *ngIf="it.options.added?.length">
-                  , extra {{ it.options.added.join(', ') }}
-                </span>
-                <span *ngIf="it.options.removed?.length">
-                  , sin {{ it.options.removed.join(', ') }}
-                </span>
+              <ng-container *ngIf="it.options.added?.length">
+                <span *ngIf="it.options.base?.length">, </span>
+                extra {{ it.options.added.join(', ') }}
+              </ng-container>
+
+              <ng-container *ngIf="it.options.removed?.length">
+                <span *ngIf="it.options.base?.length || it.options.added?.length">, </span>
+                sin {{ it.options.removed.join(', ') }}
               </ng-container>
             </div>
           </div>

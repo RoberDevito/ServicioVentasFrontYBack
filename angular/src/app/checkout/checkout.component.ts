@@ -53,6 +53,7 @@ export class CheckoutComponent {
     });
     
     this.cart = this.cartService.getCart();
+    console.log(this.cart);
     this.updateTotal();
     
   }
