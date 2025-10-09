@@ -34,6 +34,7 @@ namespace Servicios.Application.Hamburguesa
             {
                 Nombre = input.Nombre,
                 Precio = input.Precio,
+                Descripcion = input.Descripcion,
                 ImagenUrl = input.ImagenUrl,
                 ListaIngredientes = input.ListIngredientes
                 .Select(dto => new Ingrediente
@@ -60,6 +61,7 @@ namespace Servicios.Application.Hamburguesa
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Precio = x.Precio,
+                Descripcion = x.Descripcion,
                 ImagenUrl = x.ImagenUrl,
                 ListIngredientes = x.ListaIngredientes
                     .Select(dto => new IngredientesDTO
