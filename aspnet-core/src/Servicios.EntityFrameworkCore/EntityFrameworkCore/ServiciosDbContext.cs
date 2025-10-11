@@ -160,7 +160,7 @@ public class ServiciosDbContext :
             a.ToTable(ServiciosConsts.DbTablePrefix + "Ingredientes", ServiciosConsts.DbSchema);
             a.ConfigureByConvention();
             a.Property(y => y.Id).ValueGeneratedOnAdd();
-            a.Property(y => y.Nombre).IsRequired().HasMaxLength(100);
+            a.Property(y => y.Nombre).HasMaxLength(100);
             a.Property(y => y.Cantidad);
 
         });

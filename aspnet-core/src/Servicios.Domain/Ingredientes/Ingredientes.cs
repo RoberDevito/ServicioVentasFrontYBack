@@ -9,10 +9,10 @@ namespace Servicios.Domain.Hamburguesa
 {
     public class Ingrediente : Entity<Guid>
     {
-        public string Nombre { get; set; } = null!;
-        public decimal? Precio { get; set; }     
+        public string? Nombre { get; set; }
+        public double? Precio { get; set; }     
         public int? Cantidad { get; set; } 
-        public TipoIngrediente  Tipo { get; set; } 
+        public TipoIngrediente? Tipo { get; set; } 
         public Guid HamburguesaId { get; set; }
         public Hamburguesas Hamburguesa { get; set; }
     }

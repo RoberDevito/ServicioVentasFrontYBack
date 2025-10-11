@@ -10,9 +10,9 @@ namespace Servicios.Domain.Hamburguesa
 {   
     public class IngredientesDTO : EntityDto<Guid>
     {
-         public string Nombre { get; set; }
+          public string? Nombre { get; set; }
         public double? Precio { get; set; } 
         public int? Cantidad { get; set; }
-        public TipoIngrediente Tipo { get; set; } 
+        public TipoIngrediente? Tipo { get; set; } 
      }
 }
