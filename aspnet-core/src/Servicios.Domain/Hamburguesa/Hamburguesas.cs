@@ -18,7 +18,7 @@ namespace Servicios.Domain.Hamburguesa
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
     }
-
+    
 }
 
 
