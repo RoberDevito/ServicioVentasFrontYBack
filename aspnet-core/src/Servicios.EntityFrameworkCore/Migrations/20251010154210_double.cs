@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Servicios.Migrations
 {
     /// <inheritdoc />
-    public partial class migration3 : Migration
+    public partial class @double : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -436,7 +436,8 @@ namespace Servicios.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Precio = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Precio = table.Column<double>(type: "numeric(18,2)", nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: false),
                     ImagenUrl = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Seccion = table.Column<int>(type: "integer", nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -768,8 +769,8 @@ namespace Servicios.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Precio = table.Column<double>(type: "double precision", nullable: true),
                     Cantidad = table.Column<int>(type: "integer", nullable: true),
-                    Precio = table.Column<decimal>(type: "numeric", nullable: true),
                     Tipo = table.Column<int>(type: "integer", nullable: false),
                     HamburguesaId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

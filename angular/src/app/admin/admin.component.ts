@@ -92,6 +92,7 @@ export class AdminComponent {
     const hamburDTO: HamburguesasDTO = {
       nombre: formValue.nombre ?? undefined,
       precio: formValue.precio,
+      descripcion: formValue.descripcion ?? undefined,
       imagenUrl: formValue.imagenUrl ?? undefined,
       listIngredientes: ingredientes
     };
@@ -116,10 +117,10 @@ export class AdminComponent {
 
   createIngredienteGroup(): FormGroup {
     return this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
-      cantidad: [0, [Validators.min(0)]],
-      precio: [0, [Validators.min(0)]],
-      tipo: ['Fijo', Validators.required] 
+      nombre: [''],
+      cantidad: [0],
+      precio: [0],
+      tipo: ['Fijo'] 
     });
   }
 

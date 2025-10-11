@@ -23,10 +23,19 @@
     <!-- Nombre -->
     <div class="field">
       <label for="nombre">Nombre</label>
-      <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Doble Queso" />
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Hamburguesa Clásica" />
       <div class="error" *ngIf="f.nombre?.touched && f.nombre?.invalid">
         <span *ngIf="f.nombre?.errors?.['required']">El nombre es obligatorio.</span>
         <span *ngIf="f.nombre?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripcion</label>
+      <input id="descripcion" type="text" formControlName="descripcion" placeholder="Ej: Descripcion de hamburguesa" />
+      <div class="error" *ngIf="f.descripcion?.touched && f.descripcion?.invalid">
+        <span *ngIf="f.descripcion?.errors?.['required']">La descripcion es obligatoria.</span>
+        <span *ngIf="f.descripcion?.errors?.['minlength']">Mínimo 3 caracteres.</span>
       </div>
     </div>
 

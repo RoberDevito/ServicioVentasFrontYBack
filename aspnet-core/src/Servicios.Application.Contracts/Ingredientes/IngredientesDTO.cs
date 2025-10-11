@@ -13,6 +13,6 @@ namespace Servicios.Domain.Hamburguesa
          public string Nombre { get; set; }
         public decimal? Precio { get; set; } 
         public int? Cantidad { get; set; }
-        public TipoIngrediente Tipo { get; set; } 
+        public TipoIngrediente? Tipo { get; set; } 
      }
 }

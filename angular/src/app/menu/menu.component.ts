@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HamburguesasService } from '@proxy/application/hamburguesa';
 import { CartService } from '../services/cart.service';
+import { FormsModule } from '@angular/forms';
 
 interface CartItem {
   id: number;
   nombre: string;
   precio: number;
   cantidad: number;
+  comentario?: string;
   options?: {
     base?: string[];
     removed?: string[];
@@ -19,7 +21,7 @@ interface CartItem {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
@@ -34,6 +36,7 @@ export class MenuComponent implements OnInit {
   added: Set<string> = new Set();
   quantity: number = 0;
   removed: Set<string> = new Set();
+  comentario: string = ''; 
 
   constructor(
     private router: Router,
@@ -206,6 +209,7 @@ export class MenuComponent implements OnInit {
     const newItem: CartItem = {
       id: this.selected.id,
       nombre: this.selected.nombre,
+      comentario: this.comentario.trim(),
       precio: finalPrice,
       cantidad: this.quantity,
       options: { base: baseIngredientes, removed, added }
@@ -227,6 +231,7 @@ export class MenuComponent implements OnInit {
 
     // Reset cantidades
     this.selected.listIngredientes?.forEach((ing: any) => (ing.cantidad = ing.baseCantidad ?? 0));
+    this.comentario = '';
     this.quantity = 1;
     this.removed.clear();
     this.added.clear();

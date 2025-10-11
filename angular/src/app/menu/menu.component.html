@@ -35,7 +35,7 @@
           <img [src]="b.imagenUrl">
           <div class="info">
             <div class="name">{{ b.nombre }}</div>
-
+            <span>{{ b.descripcion }}</span>
             <!-- Lista de ingredientes -->
             <div class="desc">
               <span *ngFor="let ing of b.listIngredientes; let last = last">
@@ -86,14 +86,20 @@
   <div class="app-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
   <div class="app-modal" *ngIf="showModal">
     <div class="modal-header">
-      <div class="m-title">{{ selected?.nombre }}</div>
       <button class="close" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
-      <img class="m-img" [src]="selected?.imagenUrl" alt="{{ selected?.nombre }}" />
+      <img class="m-img" [src]="selected?.imagenUrl" alt="{{ selected?.nombre }}"/>
+      <div class="m-title">{{ selected?.nombre }}</div>
+      <span>{{ selected?.descripcion }}</span>
+      <div class="qty-line full-width">
+        <button class="btn-qty" (click)="restarCant()">−</button>
+        <span class="qty-num">{{ quantity }}</span>
+        <button class="btn-qty" (click)="sumarCant()">+</button>
+      </div>
       <div class="section">
-        <div class="label" *ngIf="quitar">Quitar ingredientes</div>
         <ng-container *ngFor="let ing of selected?.listIngredientes">
+          <div class="label" *ngIf="quitar">Quitar ingredientes</div>
           <label class="chip" *ngIf="ing.tipo === 0">
             <input type="checkbox"
                   [checked]="removed.has(ing.nombre)"
@@ -115,10 +121,15 @@
           </div>
         </ng-container>
       </div>
-      <div class="qty main-qty">
-        <button (click)="restarCant()">-</button>
-          <span>{{ quantity }}</span>
-        <button (click)="sumarCant()">+</button>
+      <div class="comentarios-section">
+        <label for="comentario" class="comentarios-label">Comentarios</label>
+        <textarea
+          id="comentario"
+          [(ngModel)]="comentario"
+          placeholder="Agrega comentarios"
+          class="comentarios-input"
+          rows="3"
+        ></textarea>
       </div>
     </div>
     <div class="modal-footer">
@@ -140,18 +151,17 @@
           <div class="cart-info">
             <div class="name">{{ it.nombre }}</div>
             <div class="opts" *ngIf="it.options">
-              <ng-container *ngIf="it.options.base?.length">
+              <span *ngIf="it.options.base?.length">
                 {{ it.options.base.join(', ') }}
-              </ng-container>
+              </span>
 
-              <ng-container *ngIf="it.options.added?.length">
-                <span *ngIf="it.options.base?.length">, </span>
-                extra {{ it.options.added.join(', ') }}
-              </ng-container>
-
-              <ng-container *ngIf="it.options.removed?.length">
-                <span *ngIf="it.options.base?.length || it.options.added?.length">, </span>
-                sin {{ it.options.removed.join(', ') }}
+              <ng-container *ngIf="it.options.added?.length || it.options.removed?.length">
+                <span *ngIf="it.options.added?.length">
+                  , extra {{ it.options.added.join(', ') }}
+                </span>
+                <span *ngIf="it.options.removed?.length">
+                  , sin {{ it.options.removed.join(', ') }}
+                </span>
               </ng-container>
             </div>
           </div>
