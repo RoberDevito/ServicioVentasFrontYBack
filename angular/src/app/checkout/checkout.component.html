@@ -110,7 +110,8 @@
         <div class="summary-item" *ngFor="let item of cart">
           <div class="item-info">
             <span class="item-name">{{ item.nombre }}</span>
-            <small class="item-qty">× {{ item.cantidad }}</small>
+            <span>{{item.comentario}}</span>
+            <small class="item-qty">×{{ item.cantidad }}</small>
 
             <!-- Ingredientes base -->
             <div *ngIf="item.options?.base?.length" class="item-base">

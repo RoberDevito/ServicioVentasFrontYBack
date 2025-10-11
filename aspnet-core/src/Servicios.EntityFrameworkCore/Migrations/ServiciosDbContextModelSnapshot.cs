@@ -30,6 +30,10 @@ namespace Servicios.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp without time zone");
 
@@ -46,7 +50,7 @@ namespace Servicios.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<decimal>("Precio")
+                    b.Property<double>("Precio")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Seccion")
@@ -74,8 +78,8 @@ namespace Servicios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<decimal?>("Precio")
-                        .HasColumnType("numeric");
+                    b.Property<double?>("Precio")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("integer");
