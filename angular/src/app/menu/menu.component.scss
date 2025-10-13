@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600&display=swap');
+
 /* Contenedor general */
 .container {
   display: flex;
@@ -65,7 +68,7 @@
 .menu-item img { width: 90px; height: 90px; border-radius: 12px; object-fit: cover; }
 .menu-item .name { font-weight: 700; }
 .menu-item .desc { font-size: 12px; color: #666; }
-.menu-item .price { font-weight: 700; margin-top: 4px; }
+.menu-item .price { font-weight: 800; margin-top: 4px; font-family: 'Manrope', sans-serif; }
 .menu-item .add:active { transform: scale(0.98); }
 .menu-item .info .name { font-weight: 900; }
 .menu-item .fav {
@@ -173,7 +176,12 @@
 .qty { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
 .qty button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 .app-modal .modal-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px 16px; border-top: 1px solid #eee; position: sticky; bottom: 0; background: #fff; }
-.m-price { font-weight: 800; font-size: 18px; }
+.m-price 
+{ 
+  font-weight: 800; 
+  font-size: 18px;
+  font-family: 'Manrope', sans-serif;
+}
 .confirm { background: var(--brand-yellow); color: #fff; border: 0; padding: 10px 14px; border-radius: 999px; font-weight: 800; }
 
 /* Header icon color for visibility on dark bar */
@@ -235,7 +243,7 @@
 .app-modal.cart .cart-qty { display: inline-flex; align-items: center; gap: 8px; }
 .app-modal.cart .cart-qty button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 .app-modal.cart .cart-qty span { min-width: 20px; text-align: center; font-weight: 800; font-family: 'Nunito', sans-serif; }
-.app-modal.cart .cart-price { font-weight: 800; }
+.app-modal.cart .cart-price { font-weight: 800;  }
 .app-modal.cart .cart-remove { background: transparent; border: 0; color: #999; }
 
 .extras-list {
@@ -290,12 +298,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
+  background: #f6f6f6; 
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  padding: 10px 16px;
+  padding: 8px 14px;
   width: 100%;
-  margin: 12px 0;
+  margin: 14px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .btn-qty {
@@ -304,32 +312,37 @@
   height: 40px;
   border: none;
   border-radius: 8px;
-  background: #f4f4f4;
+  background: #ffffff; 
   color: #222;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid #ddd; 
 
   &:hover {
-    background: #e8e8e8; 
+    background: #f0f0f0;
+    transform: scale(1.05);
   }
 
   &:active {
-    background: #dcdcdc;
-    transform: scale(0.96);
+    background: #e0e0e0;
+    transform: scale(0.95);
   }
 }
 
 .qty-num {
   flex: 2;
   text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #111;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Manrope', sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: #111; 
+  text-shadow: 0 0.5px 0 rgba(0,0,0,0.15);
 }
 
 .comentarios-section {
@@ -367,5 +380,82 @@
     box-shadow: 0 0 0 2px #ddd;
   }
 }
+
+.carne-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  .label {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+  }
+
+  .sub-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .carne-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .carne-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #6cbc87;
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s ease;
+    color: #222;
+    font-weight: 500;
+    position: relative;
+
+    &:hover {
+      background: rgba(108, 188, 135, 0.05);
+    }
+
+    &.selected {
+      background: rgba(108, 188, 135, 0.1);
+      box-shadow: 0 0 0 2px #6cbc87;
+      color: #222; /* evita que se vuelva blanco */
+    }
+
+    .carne-info {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+
+      .carne-name {
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      .carne-price {
+        color: #6cbc87;
+        font-weight: 600;
+        border: 1px solid #6cbc87;
+        border-radius: 12px;
+        padding: 3px 10px;
+        font-size: 0.9rem;
+        background: rgba(108, 188, 135, 0.1);
+      }
+    }
+  }
+
+  input[type='radio'].form-check-input {
+    display: none !important;
+  }
+}
+
+
 
 

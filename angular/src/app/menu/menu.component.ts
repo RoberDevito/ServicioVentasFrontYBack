@@ -15,6 +15,7 @@ interface CartItem {
     base?: string[];
     removed?: string[];
     added?: string[];
+    selectedCarne?: string;
   };
 }
 
@@ -37,6 +38,7 @@ export class MenuComponent implements OnInit {
   quantity: number = 0;
   removed: Set<string> = new Set();
   comentario: string = ''; 
+  selectedCarne: string 
 
   constructor(
     private router: Router,
@@ -79,17 +81,25 @@ export class MenuComponent implements OnInit {
 
   currentPrice(): number {
     if (!this.selected) return 0;
-    let base = this.selected.precio || 0;
+    
+    let total = this.selected.precio || 0;
+    this.selected.listIngredientes?.forEach((ing: any) => {
+      if (ing.tipo === 1 && ing.precio && ing.cantidad > (ing.baseCantidad ?? 0)) {
+        const diff = ing.cantidad - (ing.baseCantidad ?? 0);
+        total += diff * ing.precio;
+      }
+    });
 
-    if (this.selected.listIngredientes) {
-      this.selected.listIngredientes.forEach((ing: any) => {
-        if (ing.tipo === 1 && (ing.cantidad > ing.baseCantidad) && ing.precio) {
-          base +=  (ing.cantidad - ing.baseCantidad) * (ing.precio || 0);
-        }
-      });
+    if (this.selectedCarne) {
+      const carneSeleccionada = this.selected.listIngredientes?.find(
+        (ing: any) => ing.nombre === this.selectedCarne && ing.tipo === 2
+      );
+      if (carneSeleccionada && carneSeleccionada.precio) {
+        total += carneSeleccionada.precio;
+      }
     }
 
-    return base * this.quantity;
+    return total * this.quantity;
   }
 
   incrementar(burger: any) {
@@ -172,6 +182,10 @@ export class MenuComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.selectedCarne = null;
+    this.comentario = '';
+    this.removed.clear();
+    this.added.clear();
   }
 
   addToCart() {
@@ -204,7 +218,18 @@ export class MenuComponent implements OnInit {
     });
 
     const basePrice = this.selected.precio || 0;
-    const finalPrice = basePrice + extraPrice;
+
+    let carneExtraPrice = 0;
+    if (this.selectedCarne) {
+      const carneSeleccionada = this.selected.listIngredientes?.find(
+        (ing: any) => ing.nombre === this.selectedCarne && ing.tipo === 2
+      );
+      if (carneSeleccionada && carneSeleccionada.precio) {
+        carneExtraPrice = carneSeleccionada.precio;
+      }
+    }
+
+    const finalPrice = basePrice + extraPrice + carneExtraPrice;
 
     const newItem: CartItem = {
       id: this.selected.id,
@@ -212,7 +237,7 @@ export class MenuComponent implements OnInit {
       comentario: this.comentario.trim(),
       precio: finalPrice,
       cantidad: this.quantity,
-      options: { base: baseIngredientes, removed, added }
+      options: { base: baseIngredientes, removed, added, selectedCarne:this.selectedCarne }
     };
 
     const index = this.cart.cartItems.findIndex(i => 
@@ -229,7 +254,10 @@ export class MenuComponent implements OnInit {
     this.updateTotal();
     this.closeModal();
 
-    // Reset cantidades
+    // Reset cantidades\
+    this.selected.listIngredientes?.forEach(
+    (ing: any) => (ing.cantidad = ing.baseCantidad ?? 0)
+    );
     this.selected.listIngredientes?.forEach((ing: any) => (ing.cantidad = ing.baseCantidad ?? 0));
     this.comentario = '';
     this.quantity = 1;
@@ -243,6 +271,10 @@ export class MenuComponent implements OnInit {
 
   get agregar() {
     return this.selected?.listIngredientes?.some(i => i.tipo === 1);
+  }
+
+  get carneAgre(){
+    return this.selected?.listIngredientes?.some(i => i.tipo === 2)
   }
 
   openCart() { this.showCart = true; }
