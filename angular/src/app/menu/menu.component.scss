@@ -71,6 +71,7 @@
 .menu-item .price { font-weight: 800; margin-top: 4px; font-family: 'Manrope', sans-serif; }
 .menu-item .add:active { transform: scale(0.98); }
 .menu-item .info .name { font-weight: 900; }
+.menu-item .info .descrip {font-weight: 600;}
 .menu-item .fav {
   position: absolute; top: 8px; right: 8px;
   background: #fff; border: 1px solid #eee; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;

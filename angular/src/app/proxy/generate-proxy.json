@@ -982,39 +982,17 @@
               "allowAnonymous": null,
               "implementFrom": "Servicios.Pedidos.PedidoAppService"
             },
-            "GetOneByIdAsyncById": {
-              "uniqueName": "GetOneByIdAsyncById",
-              "name": "GetOneByIdAsync",
+            "GetAllAsync": {
+              "uniqueName": "GetAllAsync",
+              "name": "GetAllAsync",
               "httpMethod": "GET",
-              "url": "api/app/pedido/{id}/one-by-id",
+              "url": "api/app/pedido",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
-                "type": "Servicios.Pedidos.PedidoDto",
-                "typeSimple": "Servicios.Pedidos.PedidoDto"
+                "type": "System.Collections.Generic.List<Servicios.Pedidos.PedidoDto>",
+                "typeSimple": "[Servicios.Pedidos.PedidoDto]"
               },
               "allowAnonymous": null,
               "implementFrom": "Servicios.Pedidos.PedidoAppService"
@@ -4040,11 +4018,13 @@
       "isEnum": true,
       "enumNames": [
         "Fijo",
-        "Cantidad"
+        "Cantidad",
+        "Carne"
       ],
       "enumValues": [
         0,
-        1
+        1,
+        2
       ],
       "genericArguments": null,
       "properties": null
@@ -4190,6 +4170,42 @@
           "jsonName": null,
           "type": "System.Decimal",
           "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IngredientesQuitados",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IngredientesAgregados",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CarneSeleccionada",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -4376,6 +4392,42 @@
           "jsonName": null,
           "type": "System.Decimal",
           "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IngredientesQuitados",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IngredientesAgregados",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CarneSeleccionada",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

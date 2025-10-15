@@ -15,6 +15,9 @@ namespace Servicios.Domain.Hamburguesa
         public Hamburguesas Hamburguesa { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
+        public string? IngredientesQuitados { get; set; }   
+        public string? IngredientesAgregados { get; set; }  
+        public string? CarneSeleccionada { get; set; } 
         
         public PedidoItems()
         {

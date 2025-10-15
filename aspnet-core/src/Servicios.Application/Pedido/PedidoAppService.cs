@@ -14,13 +14,16 @@ namespace Servicios.Pedidos
     {
         private readonly IRepository<Pedido, Guid> _pedidoRepository;
         private readonly IRepository<Hamburguesas, Guid> _hamburguesaRepository;
+        private readonly IPedidoNotifier _pedidoNotifier;
 
         public PedidoAppService(
             IRepository<Pedido, Guid> pedidoRepository,
-            IRepository<Hamburguesas, Guid> hamburguesaRepository)
+            IRepository<Hamburguesas, Guid> hamburguesaRepository,
+            IPedidoNotifier pedidoNotifier)
         {
             _pedidoRepository = pedidoRepository;
             _hamburguesaRepository = hamburguesaRepository;
+            _pedidoNotifier = pedidoNotifier;   
         }
 
         // Crear un nuevo pedido
@@ -36,12 +39,14 @@ namespace Servicios.Pedidos
                 Comentario = input.Comentario,
                 FormaPago = input.FormaPago,
                 Estado = PedidoEstado.PendientePago,
-
                 Items = input.Items.Select(i => new PedidoItems
                 {
                     HamburguesaId = i.HamburguesaId,
                     Cantidad = i.Cantidad,
-                    PrecioUnitario = i.PrecioUnitario
+                    PrecioUnitario = i.PrecioUnitario,
+                    IngredientesQuitados = i.IngredientesQuitados,
+                    IngredientesAgregados = i.IngredientesAgregados,
+                    CarneSeleccionada = i.CarneSeleccionada
                 }).ToList()
             };
 
@@ -49,24 +54,46 @@ namespace Servicios.Pedidos
 
             await _pedidoRepository.InsertAsync(pedido);
 
-            return ObjectMapper.Map<Pedido, PedidoDto>(pedido);
+            var pedidoDto = ObjectMapper.Map<Pedido, PedidoDto>(pedido);
+
+            await _pedidoNotifier.NotificarNuevoPedidoAsync(pedidoDto);
+
+            return pedidoDto;
         }
 
         // Obtener un pedido por Id, incluyendo items y nombre de hamburguesa
-        public async Task<PedidoDto> GetOneByIdAsync(Guid id)
+      public async Task<List<PedidoDto>> GetAllAsync()
         {
-            var query = await _pedidoRepository.WithDetailsAsync();
-            var pedido = await query
+            var queryable = await _pedidoRepository.GetQueryableAsync();
+
+            var pedidos = await queryable
                 .Include(p => p.Items)
                 .ThenInclude(i => i.Hamburguesa)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .ToListAsync();
 
-            if (pedido == null)
+            return pedidos.Select(p => new PedidoDto
             {
-                throw new UserFriendlyException("Pedido no encontrado");
-            }
-
-            return ObjectMapper.Map<Pedido, PedidoDto>(pedido);
+                Id = p.Id,
+                ClienteNombre = p.ClienteNombre,
+                ClienteEmail = p.ClienteEmail,
+                ClienteTelefono = p.ClienteTelefono,
+                Calle = p.Calle,
+                Piso = p.Piso,
+                Comentario = p.Comentario,
+                FormaPago = p.FormaPago,
+                Total = p.Total,
+                Estado = p.Estado,
+                Items = p.Items.Select(i => new PedidoItemDto
+                {
+                    HamburguesaId = i.HamburguesaId,
+                    NombreHamburguesa = i.Hamburguesa?.Nombre,
+                    Cantidad = i.Cantidad,
+                    PrecioUnitario = i.PrecioUnitario,
+                    IngredientesQuitados = i.IngredientesQuitados,
+                    IngredientesAgregados = i.IngredientesAgregados,
+                    CarneSeleccionada = i.CarneSeleccionada
+                }).ToList()
+            }).ToList();
         }
 
     }

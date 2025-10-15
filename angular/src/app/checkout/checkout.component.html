@@ -127,6 +127,10 @@
             <div *ngIf="item.options?.added?.length" class="item-added">
               <span *ngFor="let ing of item.options.added" class="option added">+ {{ ing }}</span>
             </div>
+
+            <div *ngIf="item.options?.selectedCarne" class="item-added">
+              <span>Carne: {{ item.options.selectedCarne }}</span>
+            </div>
           </div>
 
           <div class="item-price">

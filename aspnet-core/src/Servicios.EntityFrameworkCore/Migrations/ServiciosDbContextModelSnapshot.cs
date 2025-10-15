@@ -147,8 +147,17 @@ namespace Servicios.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("integer");
 
+                    b.Property<string>("CarneSeleccionada")
+                        .HasColumnType("text");
+
                     b.Property<Guid>("HamburguesaId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("IngredientesAgregados")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IngredientesQuitados")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PedidoId")
                         .HasColumnType("uuid");

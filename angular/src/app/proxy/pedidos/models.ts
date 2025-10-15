@@ -16,6 +16,9 @@ export interface CrearPedidoItemDto {
   hamburguesaId?: string;
   cantidad: number;
   precioUnitario: number;
+  ingredientesQuitados?: string;
+  ingredientesAgregados?: string;
+  carneSeleccionada?: string;
 }
 
 export interface PedidoDto extends EntityDto<string> {
@@ -36,4 +39,7 @@ export interface PedidoItemDto {
   nombreHamburguesa?: string;
   cantidad: number;
   precioUnitario: number;
+  ingredientesQuitados?: string;
+  ingredientesAgregados?: string;
+  carneSeleccionada?: string;
 }

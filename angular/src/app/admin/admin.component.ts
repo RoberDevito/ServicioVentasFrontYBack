@@ -18,6 +18,9 @@ import { BaseCoreModule } from "@abp/ng.core";
 export class AdminComponent {
 
   menuOpen = false;
+  showSuccessModal = false;
+  showErrorModal = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -106,6 +109,11 @@ export class AdminComponent {
     this.hamburguesa.create(hamburDTO).subscribe({
       next: () => {
         console.log({ ...hamburDTO, descripcion: formValue.descripcion });
+        this.showSuccessModal = true;
+      },
+      error: () => {
+        this.showErrorModal = true;
+        this.errorMessage = 'Error al crear la hamburguesa.';
       }
     });
   }
@@ -124,8 +132,8 @@ export class AdminComponent {
   createIngredienteGroup(): FormGroup {
     return this.fb.group({
       nombre: [''],
-      cantidad: [0],
-      precio: [0],
+      cantidad: [],
+      precio: [],
       tipo: ['Fijo'] 
     });
   }
