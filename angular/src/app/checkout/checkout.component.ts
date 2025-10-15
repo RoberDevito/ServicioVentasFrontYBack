@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CartItem, CartService } from '../services/cart.service';
 import { PedidoDto, PedidoService } from '@proxy/pedidos';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +21,8 @@ export class CheckoutComponent {
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
-    private pedido:PedidoService
+    private pedido:PedidoService,
+    private route:Router
   ) {}
 
   data = this.fb.group({
@@ -70,7 +72,7 @@ export class CheckoutComponent {
       console.log('✅ Formulario válido');
       console.log('Datos del cliente:', this.data.value);
       
-      const pedido: PedidoDto = {
+      const pedido = {
         clienteEmail: this.data.value.correo!,
         clienteNombre: this.data.value.nombre!,
         clienteTelefono: this.data.value.telefono!,
@@ -82,7 +84,11 @@ export class CheckoutComponent {
         items: this.cart.map(it => ({
           cantidad: it.cantidad,
           precioUnitario: it.precio,
-          hamburguesaId: String(it.id)
+          hamburguesaId: String(it.id),
+          nombreHamburguesa: it.nombre,
+          ingredientesQuitados: it.options?.removed?.length ? it.options.removed.join(',') : '',
+          ingredientesAgregados: it.options?.added?.length ? it.options.added.join(',') : '',
+          carneSeleccionada: it.options?.selectedCarne || ''
         }))
       };
 

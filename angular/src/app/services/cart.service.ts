@@ -9,6 +9,7 @@ export interface CartItem {
     base?: string[],
     removed?: string[];
     added?: string[];
+    selectedCarne?: string | null;
   };
 }
 

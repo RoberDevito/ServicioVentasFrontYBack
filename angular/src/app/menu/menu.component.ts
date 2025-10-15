@@ -67,16 +67,10 @@ export class MenuComponent implements OnInit {
         nombre: burger.nombre,
         precio: burger.precio,
         cantidad: burger.cantidad || 1,
-        options: {
-          base: baseIngredientes,
-          removed: [],
-          added: []
-        }
       });
     }
 
     this.updateTotal();
-    burger.cantidad = 0;
   }
 
   currentPrice(): number {

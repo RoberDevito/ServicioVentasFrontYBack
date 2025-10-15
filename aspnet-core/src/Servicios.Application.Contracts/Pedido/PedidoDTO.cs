@@ -28,6 +28,9 @@ namespace Servicios.Pedidos
         public Guid HamburguesaId { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
+        public string? IngredientesQuitados { get; set; }
+        public string? IngredientesAgregados { get; set; }
+        public string? CarneSeleccionada { get; set; }
     }
 
     public class PedidoDto : EntityDto<Guid>
@@ -50,5 +53,9 @@ namespace Servicios.Pedidos
         public string? NombreHamburguesa { get; set; } 
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
+
+        public string? IngredientesQuitados { get; set; }
+        public string? IngredientesAgregados { get; set; }
+        public string? CarneSeleccionada { get; set; }
     }
 }

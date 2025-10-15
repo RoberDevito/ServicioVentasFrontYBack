@@ -29,6 +29,8 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Servicios.Pedidos;                     
+using Servicios.HttpApi.Host.SignalR;  
 
 namespace Servicios;
 
@@ -62,6 +64,7 @@ public class ServiciosHttpApiHostModule : AbpModule
     {
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
+        context.Services.AddTransient<IPedidoNotifier, SignalRPedidoNotifier>();
 
         ConfigureAuthentication(context);
         ConfigureBundles();

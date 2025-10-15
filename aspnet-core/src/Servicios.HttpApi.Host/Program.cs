@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Servicios.HttpApi.Host.SignalR;
 
 namespace Servicios;
 
@@ -28,22 +29,30 @@ public class Program
         try
         {
             Log.Information("Starting Servicios.HttpApi.Host.");
+
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+
+            builder.Services.AddSignalR();
+
             await builder.AddApplicationAsync<ServiciosHttpApiHostModule>();
+
             var app = builder.Build();
+
             await app.InitializeApplicationAsync();
+
+            app.MapHub<OrdersHub>("/hubs/orders");
+
             await app.RunAsync();
             return 0;
         }
         catch (Exception ex)
         {
             if (ex is HostAbortedException)
-            {
                 throw;
-            }
 
             Log.Fatal(ex, "Host terminated unexpectedly!");
             return 1;

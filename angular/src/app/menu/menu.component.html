@@ -3,7 +3,6 @@
   <!-- NAVBAR -->
   <header class="navbar">
     <span class="direccion">Urquiza 769</span>
-    <i class="bi bi-person" aria-label="Perfil"></i>
   </header>
 
   <!-- CONTENIDO -->
@@ -35,13 +34,13 @@
           <img [src]="b.imagenUrl">
           <div class="info">
             <div class="name">{{ b.nombre }}</div>
-            <span>{{ b.descripcion }}</span>
+            <span class="descrip">{{ b.descripcion }}</span>
             <!-- Lista de ingredientes -->
-            <div class="desc">
+            <!-- <div class="desc">
               <span *ngFor="let ing of b.listIngredientes; let last = last">
                 {{ ing.nombre }}<span *ngIf="!last">, </span>
               </span>
-            </div>
+            </div> -->
 
             <div class="price">${{ b.precio }}</div>
           </div>
@@ -57,7 +56,7 @@
               <button (click)="incrementar(b)">+</button>
             </div>
             <button class="btn ghost" (click)="openModal(b)">Personalizar</button>
-            <button class="btn primary" (click)="agregarCarrito(b)">Pedir</button>
+            <button [disabled]="b.cantidad === 0" class="btn primary" (click)="agregarCarrito(b)">Pedir</button>
           </div>
         </div>
       </div>
@@ -124,8 +123,8 @@
         </div>
       </div>
       <div class="section">
+        <div class="label" *ngIf="quitar">Quitar ingredientes</div>
         <ng-container *ngFor="let ing of selected?.listIngredientes">
-          <div class="label" *ngIf="quitar">Quitar ingredientes</div>
           <label class="chip" *ngIf="ing.tipo === 0">
             <input type="checkbox"
                   [checked]="removed.has(ing.nombre)"
@@ -175,21 +174,38 @@
       <div *ngIf="cart.cartItems.length; else emptyCart">
         <div class="cart-row" *ngFor="let it of cart.cartItems; let i = index">
           <div class="cart-info">
-            <div class="name">{{ it.nombre }}</div>
-            <div class="opts" *ngIf="it.options">
-              <span *ngIf="it.options.base?.length">
-                {{ it.options.base.join(', ') }}
-              </span>
+            <div class="name">{{ it.nombre }} (x{{it.cantidad}})</div>
+              <div class="opts" *ngIf="it.options">
+                <!-- Base ingredientes -->
+                <span *ngIf="it.options.base?.length">
+                  {{ it.options.base.join(', ') }}
+                </span>
 
-              <ng-container *ngIf="it.options.added?.length || it.options.removed?.length">
+                <!-- Agregados -->
                 <span *ngIf="it.options.added?.length">
-                  , extra {{ it.options.added.join(', ') }}
+                  <ng-container *ngIf="it.options.base?.length">, </ng-container>
+                  extra {{ it.options.added.join(', ') }}
                 </span>
+
+                <!-- Quitados -->
                 <span *ngIf="it.options.removed?.length">
-                  , sin {{ it.options.removed.join(', ') }}
+                  <ng-container *ngIf="it.options.base?.length || it.options.added?.length">, </ng-container>
+                  sin {{ it.options.removed.join(', ') }}
                 </span>
-              </ng-container>
-            </div>
+
+                <!-- Tipo de carne -->
+                <span *ngIf="it.options.selectedCarne">
+                  <ng-container *ngIf="it.options.base?.length || it.options.added?.length || it.options.removed?.length">, </ng-container>
+                  carne: {{ it.options.selectedCarne }}
+                </span>
+
+                <!-- Comentarios -->
+                <span *ngIf="it.comentario">
+                  <ng-container *ngIf="it.options.base?.length || it.options.added?.length || it.options.removed?.length || it.options.selectedCarne">, </ng-container>
+                  {{ it.comentario }}
+                </span>
+              </div>
+
           </div>
           <div class="cart-qty">
             <button (click)="decCart(i)">-</button>
