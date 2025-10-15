@@ -97,6 +97,32 @@
         <span class="qty-num">{{ quantity }}</span>
         <button class="btn-qty" (click)="sumarCant()">+</button>
       </div>
+     <div class="carne-section" *ngIf="carneAgre">
+        <div class="label">Extra Medallones</div>
+        <div class="sub-label">Puedes seleccionar 1 opción</div>
+
+        <div class="carne-options">
+          <ng-container *ngFor="let carne of selected?.listIngredientes">
+            <label
+              *ngIf="carne.tipo === 2"
+              class="carne-option"
+              [class.selected]="selectedCarne === carne.nombre"
+            >
+              <input
+                type="radio"
+                class="form-check-input visually-hidden"
+                name="carne"
+                [value]="carne.nombre"
+                [(ngModel)]="selectedCarne"
+              />
+              <div class="carne-info">
+                <span class="carne-name">{{ carne.nombre }}</span>
+                <span class="carne-price">${{ carne.precio | number:'1.0-0' }}</span>
+              </div>
+            </label>
+          </ng-container>
+        </div>
+      </div>
       <div class="section">
         <ng-container *ngFor="let ing of selected?.listIngredientes">
           <div class="label" *ngIf="quitar">Quitar ingredientes</div>

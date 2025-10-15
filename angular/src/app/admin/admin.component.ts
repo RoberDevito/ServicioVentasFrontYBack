@@ -86,7 +86,13 @@ export class AdminComponent {
         nombre: ingrediente.nombre,
         cantidad: ingrediente.tipo === 'Cantidad' ? Number(ingrediente.cantidad) : null,
         precio: Number(ingrediente.precio) || 0,
-        tipo: ingrediente.tipo
+        tipo:   ingrediente.tipo === 'Fijo'
+          ? 0
+          : ingrediente.tipo === 'Cantidad'
+          ? 1
+          : ingrediente.tipo === 'Carne'
+          ? 2
+          : 0
       }));
 
     const hamburDTO: HamburguesasDTO = {

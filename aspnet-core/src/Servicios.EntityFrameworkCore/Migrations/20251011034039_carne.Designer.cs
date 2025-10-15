@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Servicios.Migrations
 {
     [DbContext(typeof(ServiciosDbContext))]
-    [Migration("20251010154210_double")]
-    partial class @double
+    [Migration("20251011034039_carne")]
+    partial class carne
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,14 +77,13 @@ namespace Servicios.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.Property<double?>("Precio")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("Tipo")
+                    b.Property<int?>("Tipo")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
